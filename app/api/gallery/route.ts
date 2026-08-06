@@ -3,8 +3,8 @@ import { supabase } from '@/lib/supabase';
 
 interface ImageItem {
   id: string;
-  src: string;          // Full original high-res image URL
-  thumbnailSrc: string; // Lightweight WebP template thumbnail URL (~40KB)
+  src: string;          // Full original high-res image URL (loaded on click / lightbox)
+  thumbnailSrc: string; // Lightweight WebP template thumbnail URL (~15-40KB loaded in grid preview)
   title: string;
   filename: string;
 }
@@ -26,23 +26,16 @@ function formatTitle(name: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function buildImageUrls(supabaseUrl: string, bucket: string, pathOrFilename: string): { src: string; thumbnailSrc: string } {
-  const cleanPath = pathOrFilename.replace(/^\/+/, '');
+function buildImageUrls(supabaseUrl: string, bucket: string, rawFilename: string): { src: string; thumbnailSrc: string } {
   const cleanBase = supabaseUrl.replace(/\/+$/, '');
+  const cleanFilename = rawFilename.replace(/^.*[\\\/]/, '');
+  const baseName = cleanFilename.replace(/\.[^/.]+$/, "");
 
-  let src = `${cleanBase}/storage/v1/object/public/${bucket}/${cleanPath}`;
-  let thumbnailSrc = `${cleanBase}/storage/v1/render/image/public/${bucket}/${cleanPath}?width=450&quality=75&format=webp`;
-
-  // Handle specific template / orginl folder path conventions
-  if (cleanPath.startsWith('template/') || cleanPath.startsWith('templates/')) {
-    thumbnailSrc = `${cleanBase}/storage/v1/object/public/${bucket}/${cleanPath}`;
-    const origPath = cleanPath.replace(/^templates?\//, 'orginl/');
-    src = `${cleanBase}/storage/v1/object/public/${bucket}/${origPath}`;
-  } else if (cleanPath.startsWith('orginl/') || cleanPath.startsWith('original/') || cleanPath.startsWith('originals/')) {
-    src = `${cleanBase}/storage/v1/object/public/${bucket}/${cleanPath}`;
-    const tempPath = cleanPath.replace(/^(orginl|originals?)\//, 'template/');
-    thumbnailSrc = `${cleanBase}/storage/v1/object/public/${bucket}/${tempPath}`;
-  }
+  // Original high-res image points to orginl/ folder
+  const src = `${cleanBase}/storage/v1/object/public/${bucket}/orginl/${cleanFilename}`;
+  
+  // Lightweight WebP template thumbnail points to template/ folder (.webp format)
+  const thumbnailSrc = `${cleanBase}/storage/v1/object/public/${bucket}/template/${baseName}.webp?v=2`;
 
   return { src, thumbnailSrc };
 }
@@ -61,52 +54,79 @@ export async function GET() {
 
     const bucketName = 'VishakaHu_Gallery';
     const items: ImageItem[] = [];
-    const seenIds = new Set<string>();
+    const seenBases = new Set<string>();
 
-    // 1. Try listing files from Supabase Storage bucket 'VishakaHu_Gallery'
-    const foldersToScan = ['', 'template', 'orginl', 'original'];
-    for (const folder of foldersToScan) {
-      const { data: storageFiles } = await supabase
-        .storage
-        .from(bucketName)
-        .list(folder, { limit: 100 });
+    // 1. Scan orginl/ folder for original photos
+    const { data: orgFiles } = await supabase
+      .storage
+      .from(bucketName)
+      .list('orginl', { limit: 100 });
 
-      if (storageFiles && storageFiles.length > 0) {
-        for (const file of storageFiles) {
-          if (file.name.startsWith('.')) continue;
-          const ext = file.name.includes('.') ? file.name.substring(file.name.lastIndexOf('.')).toLowerCase() : '';
-          
-          if (SUPPORTED_EXTENSIONS.has(ext) || file.id) {
-            const relativeFilePath = folder ? `${folder}/${file.name}` : file.name;
-            const uniqueId = file.id || relativeFilePath;
-
-            if (!seenIds.has(uniqueId)) {
-              seenIds.add(uniqueId);
-              const { src, thumbnailSrc } = buildImageUrls(supabaseUrl, bucketName, relativeFilePath);
-              items.push({
-                id: uniqueId,
-                src,
-                thumbnailSrc,
-                title: formatTitle(file.name),
-                filename: file.name
-              });
-            }
+    if (orgFiles && orgFiles.length > 0) {
+      for (const file of orgFiles) {
+        if (file.name.startsWith('.')) continue;
+        const ext = file.name.includes('.') ? file.name.substring(file.name.lastIndexOf('.')).toLowerCase() : '';
+        
+        if (SUPPORTED_EXTENSIONS.has(ext)) {
+          const baseName = file.name.replace(/\.[^/.]+$/, "");
+          if (!seenBases.has(baseName)) {
+            seenBases.add(baseName);
+            const { src, thumbnailSrc } = buildImageUrls(supabaseUrl, bucketName, file.name);
+            items.push({
+              id: baseName,
+              src,
+              thumbnailSrc,
+              title: formatTitle(file.name),
+              filename: file.name
+            });
           }
         }
       }
     }
 
-    // 2. If SDK list returns nothing (e.g. RLS on list()), generate optimized items for default gallery files
+    // 2. Scan root folder for any newly uploaded images not yet in orginl/
+    const { data: rootFiles } = await supabase
+      .storage
+      .from(bucketName)
+      .list('', { limit: 100 });
+
+    if (rootFiles && rootFiles.length > 0) {
+      for (const file of rootFiles) {
+        if (file.name.startsWith('.') || !file.name.includes('.')) continue;
+        const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+
+        if (SUPPORTED_EXTENSIONS.has(ext)) {
+          const baseName = file.name.replace(/\.[^/.]+$/, "");
+          if (!seenBases.has(baseName)) {
+            seenBases.add(baseName);
+            const { src, thumbnailSrc } = buildImageUrls(supabaseUrl, bucketName, file.name);
+            items.push({
+              id: baseName,
+              src,
+              thumbnailSrc,
+              title: formatTitle(file.name),
+              filename: file.name
+            });
+          }
+        }
+      }
+    }
+
+    // 3. Fallback if SDK list returns empty (e.g. RLS on list())
     if (items.length === 0) {
       for (const filename of DEFAULT_GALLERY_FILES) {
-        const { src, thumbnailSrc } = buildImageUrls(supabaseUrl, bucketName, filename);
-        items.push({
-          id: filename,
-          src,
-          thumbnailSrc,
-          title: formatTitle(filename),
-          filename
-        });
+        const baseName = filename.replace(/\.[^/.]+$/, "");
+        if (!seenBases.has(baseName)) {
+          seenBases.add(baseName);
+          const { src, thumbnailSrc } = buildImageUrls(supabaseUrl, bucketName, filename);
+          items.push({
+            id: baseName,
+            src,
+            thumbnailSrc,
+            title: formatTitle(filename),
+            filename
+          });
+        }
       }
     }
 

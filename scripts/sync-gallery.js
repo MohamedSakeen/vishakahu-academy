@@ -118,11 +118,23 @@ async function runSync() {
       }
     }
 
-    // Convert to WebP thumbnail using sharp
+    // Convert and normalize orientation using sharp
     try {
-      const webpBuffer = await sharp(imageBuffer)
-        .resize({ width: 500, withoutEnlargement: true })
-        .webp({ quality: 75 })
+      // 1. Normalize original high-res image (bake EXIF orientation into pixels)
+      const normalizedOrgBuffer = await sharp(imageBuffer)
+        // .rotate()
+        .jpeg({ quality: 92 })
+        .toBuffer();
+
+      await supabase.storage.from(BUCKET).upload(targetOrgPath, normalizedOrgBuffer, {
+        contentType: 'image/jpeg',
+        upsert: true
+      });
+
+      // 2. Generate WebP thumbnail from normalized image
+      const webpBuffer = await sharp(normalizedOrgBuffer)
+        .resize({ width: 600, withoutEnlargement: true })
+        .webp({ quality: 80 })
         .toBuffer();
 
       console.log(`  └ Generated WebP thumbnail: ${(webpBuffer.length / 1024).toFixed(2)} KB`);

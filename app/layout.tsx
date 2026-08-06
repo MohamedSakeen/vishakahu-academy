@@ -18,9 +18,53 @@ const notoSans = Noto_Sans({
   variable: '--font-noto-sans',
 });
 
+const defaultUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://vishakahu.com';
+
 export const metadata: Metadata = {
-  title: 'Vishakahu Academy',
-  description: 'Vishakahu Academy - The Path of Discipline. Isshinryu Karate Dojo.',
+  metadataBase: new URL(defaultUrl),
+  title: {
+    default: 'Vishakahu Academy | Isshinryu Karate Dojo',
+    template: '%s | Vishakahu Academy',
+  },
+  description: 'Vishakahu Academy — Premier Isshinryu Karate Dojo led by Kyoshi Vishnuwarthan. Combining traditional discipline, physical fitness, and practical self-defense.',
+  keywords: [
+    'Vishakahu Academy',
+    'Isshinryu Karate',
+    'Karate Dojo',
+    'Kyoshi Vishnuwarthan',
+    'Self Defense',
+    'Martial Arts',
+    'Tirunelveli Karate',
+    'Chennai Karate',
+    'Kids Karate',
+  ],
+  authors: [{ name: 'Vishakahu Academy' }],
+  creator: 'Vishakahu Academy',
+  publisher: 'Vishakahu Academy',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: defaultUrl,
+    title: 'Vishakahu Academy | Isshinryu Karate Dojo',
+    description: 'Premier Isshinryu Karate Dojo — Traditional discipline, physical fitness, and practical self-defense.',
+    siteName: 'Vishakahu Academy',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Vishakahu Academy | Isshinryu Karate Dojo',
+    description: 'Premier Isshinryu Karate Dojo led by Kyoshi Vishnuwarthan.',
+  },
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {

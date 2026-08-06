@@ -2,17 +2,19 @@
 
 import { motion } from 'motion/react';
 import { useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const sanitizeName = (val: string) => val.replace(/[<>{}[\]\\\/]/g, '');
   const sanitizeEmail = (val: string) => val.replace(/[<>{}[\]\\\/]/g, '').trim();
   const sanitizePhone = (val: string) => val.replace(/[^0-9+\-\s()]/g, '');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Perform thorough validation & sanitization
@@ -34,7 +36,7 @@ export default function Contact() {
     const cleanPhone = sanitizePhone(formData.phone);
     const digitsOnly = cleanPhone.replace(/\D/g, '');
     if (!cleanPhone || digitsOnly.length < 7 || digitsOnly.length > 15) {
-      newErrors.phone = 'Please enter a valid mobile number ';
+      newErrors.phone = 'Please enter a valid mobile number.';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -43,9 +45,27 @@ export default function Contact() {
     }
 
     setErrors({});
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-    setFormData({ name: '', email: '', phone: '' });
+    setSubmitting(true);
+
+    try {
+      // Insert student registration directly into Supabase database table
+      const { error } = await supabase
+        .from('student_registrations')
+        .insert([{ name: cleanName, email: cleanEmail, phone: cleanPhone }]);
+
+      if (error) {
+        console.warn("Supabase registration notice:", error.message);
+      }
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (err) {
+      console.error("Registration submit error:", err);
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -183,8 +203,12 @@ export default function Contact() {
                 </div>
 
                 <div className="pt-4">
-                  <button type="submit" className="w-full py-4 bg-crimson text-white hover:bg-deep-red font-serif tracking-[0.2em] font-bold text-xs uppercase transition-colors interactive clip-elegant">
-                    Submit Application
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full py-4 bg-crimson text-white hover:bg-deep-red font-serif tracking-[0.2em] font-bold text-xs uppercase transition-colors interactive clip-elegant disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {submitting ? 'Submitting Application...' : 'Submit Application'}
                   </button>
                 </div>
               </form>

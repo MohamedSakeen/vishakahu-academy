@@ -125,14 +125,14 @@ export default function GalleryPage() {
                     setSelectedImageIndex(idx);
                   }}
                   onMouseEnter={() => handlePreloadOriginal(item.src)}
-                  className="group relative overflow-hidden bg-white-off/5 break-inside-avoid w-full cursor-pointer border border-white/5 hover:border-gold/40 transition-colors duration-300"
+                  className="group relative overflow-hidden bg-white-off/5 break-inside-avoid w-full mb-4 cursor-pointer border border-white/5 hover:border-gold/40 transition-colors duration-300"
                 >
                   <img
                     src={item.thumbnailSrc || item.src}
-                    alt="Academy Photo"
+                    alt={item.title || "Academy Photo"}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-auto object-contain block transition-transform duration-700 group-hover:scale-[1.02]"
+                    className="w-full h-auto block object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                   
                   {/* Hover Overlay */}
@@ -196,8 +196,8 @@ export default function GalleryPage() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
                 src={items[selectedImageIndex].src}
-                alt="Academy Photo"
-                className="max-h-[80vh] max-w-[90vw] object-contain shadow-2xl rounded-sm"
+                alt={items[selectedImageIndex].title || "Academy Photo"}
+                className="max-h-[80vh] max-w-[90vw] w-auto h-auto object-contain shadow-2xl rounded-sm"
               />
 
               {items.length > 1 && (
