@@ -42,7 +42,7 @@ export default function Footer() {
             <ul className="space-y-4 font-sans text-sm text-white-off/60">
               <li>Kyoshi Vishnuwarthan</li>
               <li><a href="tel:+919629368936" className="hover:text-gold transition-colors">+91 96293 68936</a></li>
-              <li><a href="mailto:Vishnu.judo@gmail.com" className="hover:text-gold transition-colors">Vishnu.judo@gmail.com</a></li>
+              <li><a href="mailto:vishnu.judovav@gmail.com" className="hover:text-gold transition-colors">vishnu.judovav@gmail.com</a></li>
               <li className="mt-4 pt-4 border-t border-white-off/10 font-serif tracking-widest text-crimson">Tirunelveli & Chennai, India</li>
             </ul>
           </div>
@@ -51,10 +51,7 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-white-off/10 flex flex-col md:flex-row items-center justify-between text-xs text-white-off/40 tracking-widest uppercase gap-4">
           <p>© {new Date().getFullYear()} Vishakahu Academy. All Rights Reserved.</p>
-          <div className="flex items-center gap-2">
-            <span className="w-1 h-1 rounded-full bg-crimson" />
-            Designed in the Spirit of Budo
-          </div>
+          
         </div>
       </div>
     </footer>

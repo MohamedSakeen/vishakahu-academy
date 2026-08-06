@@ -4,14 +4,14 @@ import { motion } from 'motion/react';
 import { useState } from 'react';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', program: 'Kids Karate' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
-    setFormData({ name: '', email: '', program: 'Kids Karate' });
+    setFormData({ name: '', email: '', phone: '' });
   };
 
   return (
@@ -21,10 +21,10 @@ export default function Contact() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 flex flex-col lg:flex-row gap-16">
-        
+
         {/* Contact Info */}
         <div className="w-full lg:w-1/2">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -41,7 +41,7 @@ export default function Contact() {
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 bg-ink pr-4 text-[0.6rem] text-gold">◆</div>
               </div>
             </div>
-            
+
             <p className="text-white-off/70 font-sans mb-12 max-w-md leading-relaxed">
               Step onto the tatami and transform yourself. For admissions, inquiries, or trial classes, reach out to us.
             </p>
@@ -51,7 +51,7 @@ export default function Contact() {
                 <h4 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Chief Instructor</h4>
                 <p className="text-paper text-lg font-serif">Kyoshi Vishnuwarthan</p>
               </div>
-              
+
               <div>
                 <h4 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Phone</h4>
                 <a href="tel:+919629368936" className="text-paper text-lg hover:text-crimson transition-colors border-b border-transparent hover:border-crimson inline-block">
@@ -61,8 +61,8 @@ export default function Contact() {
 
               <div>
                 <h4 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Email</h4>
-                <a href="mailto:Vishnu.judo@gmail.com" className="text-paper text-lg hover:text-crimson transition-colors border-b border-transparent hover:border-crimson inline-block">
-                  Vishnu.judo@gmail.com
+                <a href="mailto:vishnu.judovav@gmail.com" className="text-paper text-lg hover:text-crimson transition-colors border-b border-transparent hover:border-crimson inline-block">
+                  vishnu.judovav@gmail.com
                 </a>
               </div>
             </div>
@@ -71,7 +71,7 @@ export default function Contact() {
 
         {/* Enrollment Form */}
         <div className="w-full lg:w-1/2">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -90,44 +90,41 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-xs uppercase tracking-widest text-gold mb-2 font-serif">Full Name</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     id="name"
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full bg-transparent border-b border-white-off/20 py-3 text-paper focus:outline-none focus:border-crimson transition-colors font-sans"
                     placeholder="Enter your full name"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="email" className="block text-xs uppercase tracking-widest text-gold mb-2 font-serif">Email Address</label>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     id="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full bg-transparent border-b border-white-off/20 py-3 text-paper focus:outline-none focus:border-crimson transition-colors font-sans"
                     placeholder="Enter your email"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="program" className="block text-xs uppercase tracking-widest text-gold mb-2 font-serif">Interested Program</label>
-                  <select 
-                    id="program"
-                    value={formData.program}
-                    onChange={(e) => setFormData({...formData, program: e.target.value})}
-                    className="w-full bg-transparent border-b border-white-off/20 py-3 text-paper focus:outline-none focus:border-crimson transition-colors font-sans appearance-none rounded-none"
-                  >
-                    <option value="Kids Karate" className="bg-ink text-paper">Kids Karate (5-12)</option>
-                    <option value="Youth Warriors" className="bg-ink text-paper">Youth Warriors (13-17)</option>
-                    <option value="Adult Karate" className="bg-ink text-paper">Adult Karate (18+)</option>
-                    <option value="Women's Self-Defense" className="bg-ink text-paper">Women's Self-Defense</option>
-                    <option value="Competition Training" className="bg-ink text-paper">Competition Training</option>
-                  </select>
+                  <label htmlFor="phone" className="block text-xs uppercase tracking-widest text-gold mb-2 font-serif">Mobile Number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full bg-transparent border-b border-white-off/20 py-3 text-paper focus:outline-none focus:border-crimson transition-colors font-sans"
+                    placeholder="Enter your mobile number"
+                  />
                 </div>
 
                 <div className="pt-4">
