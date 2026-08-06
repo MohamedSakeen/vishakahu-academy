@@ -13,6 +13,7 @@ interface GalleryItem {
 
 export default function Gallery() {
   const [previewItems, setPreviewItems] = useState<GalleryItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchGalleryPreview() {
@@ -24,6 +25,8 @@ export default function Gallery() {
         }
       } catch (err) {
         console.error("Failed to load gallery preview:", err);
+      } finally {
+        setLoading(false);
       }
     }
     fetchGalleryPreview();
@@ -55,7 +58,11 @@ export default function Gallery() {
           </div>
         </motion.div>
 
-        {previewItems.length > 0 ? (
+        {loading ? (
+          <div className="py-12 text-center text-white/40 font-serif tracking-widest text-sm uppercase">
+            Loading Academy Photos...
+          </div>
+        ) : previewItems.length > 0 ? (
           <div className="columns-1 sm:columns-2 lg:columns-4 gap-4 space-y-4">
             {previewItems.map((item, index) => (
               <motion.div
@@ -67,31 +74,21 @@ export default function Gallery() {
                 className="relative overflow-hidden group bg-white-off/5 break-inside-avoid w-full border border-white/5 hover:border-gold/40 transition-all duration-300"
               >
                 <Link href="/gallery">
-                  <div className="w-full h-full relative grayscale group-hover:grayscale-0 transition-all duration-700">
+                  <div className="w-full h-full relative transition-all duration-700">
                     <img 
                       src={item.src}
-                      alt={item.title}
+                      alt="Academy Photo"
                       loading="lazy"
                       className="w-full h-auto object-contain block transition-transform duration-700 group-hover:scale-[1.02]"
                     />
-                    <div className="absolute inset-0 bg-ink/30 group-hover:bg-transparent transition-colors duration-700 pointer-events-none"></div>
-                  </div>
-
-                  {/* Overlay Content */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4" />
-                  
-                  <div className="absolute bottom-0 left-0 w-full p-4 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="text-white text-sm font-serif tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {item.title}
-                    </h3>
                   </div>
                 </Link>
               </motion.div>
             ))}
           </div>
         ) : (
-          <div className="py-12 text-center text-white/40 font-serif">
-            Loading Academy Photos...
+          <div className="py-12 text-center text-white/40 font-serif tracking-widest text-sm uppercase">
+            No Academy Photos Found
           </div>
         )}
 

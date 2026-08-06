@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
@@ -12,6 +10,14 @@ interface ImageItem {
 
 const SUPPORTED_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif']);
 
+// Known gallery images uploaded to Supabase storage bucket 'VishakaHu_Gallery'
+const KNOWN_GALLERY_IMAGES = [
+  "IMG_1124.JPG", "IMG_1126.JPG", "IMG_1128.JPG", "IMG_1131.JPG",
+  "IMG_1154.JPG", "IMG_1165.JPG", "IMG_1190.JPG", "IMG_1236.JPG",
+  "IMG_1249.JPG", "IMG_1263.JPG", "IMG_1267.JPG", "IMG_4300.JPG",
+  "IMG_E4300.JPG", "IMG_E4314.JPG"
+];
+
 function formatTitle(name: string): string {
   const nameWithoutExt = name.replace(/\.[^/.]+$/, "");
   return nameWithoutExt
@@ -19,123 +25,55 @@ function formatTitle(name: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-// Read photos recursively from local app/gallery/uploads as fallback
-function getLocalPhotos(): ImageItem[] {
-  const uploadsDir = path.join(process.cwd(), 'app', 'gallery', 'uploads');
-  
-  if (!fs.existsSync(uploadsDir)) {
-    return [];
-  }
-
-  const items: ImageItem[] = [];
-
-  function scanDir(dirPath: string, relativePath: string = '') {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
-
-    for (const entry of entries) {
-      const fullPath = path.join(dirPath, entry.name);
-      const relPath = relativePath ? `${relativePath}/${entry.name}` : entry.name;
-
-      if (entry.isDirectory()) {
-        scanDir(fullPath, relPath);
-      } else if (entry.isFile() && SUPPORTED_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) {
-        const src = `/gallery/uploads/${relPath.split('/').map(encodeURIComponent).join('/')}`;
-        items.push({
-          id: relPath,
-          src,
-          title: formatTitle(entry.name),
-          filename: entry.name
-        });
-      }
-    }
-  }
-
-  scanDir(uploadsDir);
-  return items;
-}
-
 export async function GET() {
   try {
     const supabaseUrlConfigured = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    if (supabaseUrlConfigured) {
-      // 1. Try fetching from Supabase 'gallery_photos' table
-      const { data: dbPhotos, error: dbError } = await supabase
-        .from('gallery_photos')
-        .select('*')
-        .order('created_at', { ascending: false });
+    if (!supabaseUrlConfigured) {
+      return NextResponse.json({ items: [], source: 'unconfigured' });
+    }
 
-      if (!dbError && dbPhotos && dbPhotos.length > 0) {
-        const items = dbPhotos.map((photo) => ({
-          id: photo.id.toString(),
-          src: photo.url || photo.src,
-          title: photo.title || photo.filename || 'Karate Photo',
-          filename: photo.filename || ''
-        }));
-        return NextResponse.json({ items, source: 'supabase' });
-      }
+    const bucketName = 'VishakaHu_Gallery';
+    const items: ImageItem[] = [];
 
-      // 2. Try listing files from Supabase Storage bucket 'gallery'
-      const { data: storageFiles, error: storageError } = await supabase
-        .storage
-        .from('gallery')
-        .list('', { limit: 100 });
+    // 1. Try listing directly from Supabase Storage bucket 'VishakaHu_Gallery'
+    const { data: storageFiles, error: storageError } = await supabase
+      .storage
+      .from(bucketName)
+      .list('', { limit: 100 });
 
-      if (!storageError && storageFiles && storageFiles.length > 0) {
-        const items: ImageItem[] = [];
-
-        for (const file of storageFiles) {
-          if (file.name.startsWith('.')) continue;
-
-          if (!file.id) {
-            // Folder inside bucket
-            const { data: subFiles } = await supabase
-              .storage
-              .from('gallery')
-              .list(file.name);
-
-            if (subFiles) {
-              for (const subFile of subFiles) {
-                const { data: publicUrlData } = supabase
-                  .storage
-                  .from('gallery')
-                  .getPublicUrl(`${file.name}/${subFile.name}`);
-
-                items.push({
-                  id: `${file.name}-${subFile.name}`,
-                  src: publicUrlData.publicUrl,
-                  title: formatTitle(subFile.name),
-                  filename: subFile.name
-                });
-              }
-            }
-          } else {
-            const { data: publicUrlData } = supabase
-              .storage
-              .from('gallery')
-              .getPublicUrl(file.name);
-
-            items.push({
-              id: file.id,
-              src: publicUrlData.publicUrl,
-              title: formatTitle(file.name),
-              filename: file.name
-            });
-          }
-        }
-
-        if (items.length > 0) {
-          return NextResponse.json({ items, source: 'supabase-storage' });
+    if (!storageError && storageFiles && storageFiles.length > 0) {
+      for (const file of storageFiles) {
+        if (file.name.startsWith('.')) continue;
+        const ext = file.name.includes('.') ? file.name.substring(file.name.lastIndexOf('.')).toLowerCase() : '';
+        if (SUPPORTED_EXTENSIONS.has(ext) || file.id) {
+          const { data: publicUrlData } = supabase.storage.from(bucketName).getPublicUrl(file.name);
+          items.push({
+            id: file.id || file.name,
+            src: publicUrlData.publicUrl,
+            title: formatTitle(file.name),
+            filename: file.name
+          });
         }
       }
     }
 
-    // Fallback to local files
-    const items = getLocalPhotos();
-    return NextResponse.json({ items, source: 'local-fallback' });
+    // 2. If list() is restricted by RLS but bucket is public, construct public URLs for uploaded images
+    if (items.length === 0) {
+      for (const filename of KNOWN_GALLERY_IMAGES) {
+        const { data: publicUrlData } = supabase.storage.from(bucketName).getPublicUrl(filename);
+        items.push({
+          id: filename,
+          src: publicUrlData.publicUrl,
+          title: formatTitle(filename),
+          filename: filename
+        });
+      }
+    }
+
+    return NextResponse.json({ items, source: `supabase-storage:${bucketName}` });
   } catch (error) {
-    console.error("Error loading gallery photos:", error);
-    const items = getLocalPhotos();
-    return NextResponse.json({ items, source: 'local-fallback-error' });
+    console.error("Error loading gallery photos from Supabase:", error);
+    return NextResponse.json({ items: [], error: String(error) });
   }
 }

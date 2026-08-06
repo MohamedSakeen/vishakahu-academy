@@ -8,9 +8,7 @@ export default function Footer() {
           
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-crimson flex flex-col items-center justify-center text-xs font-jp font-bold text-paper border-2 border-gold mb-4">
-                 空手
-              </div>
+              
               <div className="flex flex-col">
                 <h2 className="font-serif text-xl tracking-widest text-paper uppercase">
                   Vishakahu

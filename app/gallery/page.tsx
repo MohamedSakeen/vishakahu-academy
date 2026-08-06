@@ -108,16 +108,13 @@ export default function GalleryPage() {
                 >
                   <img
                     src={item.src}
-                    alt={item.title}
+                    alt="Academy Photo"
                     loading="lazy"
                     className="w-full h-auto object-contain block transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                   
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <h3 className="text-white text-sm font-serif tracking-wider truncate">
-                      {item.title}
-                    </h3>
                     <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-ink/60 border border-white/20 flex items-center justify-center text-white/80 group-hover:text-gold transition-colors">
                       <Maximize2 size={14} />
                     </div>
@@ -148,9 +145,6 @@ export default function GalleryPage() {
                 <span className="text-gold text-xs font-serif tracking-[0.2em] uppercase block">
                   Photo ({selectedImageIndex + 1} / {items.length})
                 </span>
-                <h2 className="text-white font-serif text-lg tracking-wider">
-                  {items[selectedImageIndex].title}
-                </h2>
               </div>
               <button
                 onClick={() => setSelectedImageIndex(null)}
@@ -180,7 +174,7 @@ export default function GalleryPage() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
                 src={items[selectedImageIndex].src}
-                alt={items[selectedImageIndex].title}
+                alt="Academy Photo"
                 className="max-h-[80vh] max-w-[90vw] object-contain shadow-2xl rounded-sm"
               />
 
