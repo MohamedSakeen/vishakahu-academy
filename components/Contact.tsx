@@ -5,10 +5,44 @@ import { useState } from 'react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
   const [submitted, setSubmitted] = useState(false);
+
+  const sanitizeName = (val: string) => val.replace(/[<>{}[\]\\\/]/g, '');
+  const sanitizeEmail = (val: string) => val.replace(/[<>{}[\]\\\/]/g, '').trim();
+  const sanitizePhone = (val: string) => val.replace(/[^0-9+\-\s()]/g, '');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Perform thorough validation & sanitization
+    const newErrors: { name?: string; email?: string; phone?: string } = {};
+
+    const cleanName = sanitizeName(formData.name).trim();
+    if (!cleanName || cleanName.length < 2) {
+      newErrors.name = 'Please enter a valid name (at least 2 characters).';
+    } else if (!/^[a-zA-Z\s.'-]+$/.test(cleanName)) {
+      newErrors.name = 'Name contains invalid characters.';
+    }
+
+    const cleanEmail = sanitizeEmail(formData.email).toLowerCase();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    const cleanPhone = sanitizePhone(formData.phone);
+    const digitsOnly = cleanPhone.replace(/\D/g, '');
+    if (!cleanPhone || digitsOnly.length < 7 || digitsOnly.length > 15) {
+      newErrors.phone = 'Please enter a valid mobile number ';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
     setFormData({ name: '', email: '', phone: '' });
@@ -87,18 +121,25 @@ export default function Contact() {
                 <p className="text-white-off/60 font-sans">We will contact you shortly to begin your journey.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                 <div>
                   <label htmlFor="name" className="block text-xs uppercase tracking-widest text-gold mb-2 font-serif">Full Name</label>
                   <input
                     type="text"
                     id="name"
                     required
+                    maxLength={60}
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: sanitizeName(e.target.value) });
+                      if (errors.name) setErrors({ ...errors, name: undefined });
+                    }}
                     className="w-full bg-transparent border-b border-white-off/20 py-3 text-paper focus:outline-none focus:border-crimson transition-colors font-sans"
                     placeholder="Enter your full name"
                   />
+                  {errors.name && (
+                    <p className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.name}</p>
+                  )}
                 </div>
 
                 <div>
@@ -107,11 +148,18 @@ export default function Contact() {
                     type="email"
                     id="email"
                     required
+                    maxLength={100}
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: sanitizeEmail(e.target.value) });
+                      if (errors.email) setErrors({ ...errors, email: undefined });
+                    }}
                     className="w-full bg-transparent border-b border-white-off/20 py-3 text-paper focus:outline-none focus:border-crimson transition-colors font-sans"
                     placeholder="Enter your email"
                   />
+                  {errors.email && (
+                    <p className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.email}</p>
+                  )}
                 </div>
 
                 <div>
@@ -120,11 +168,18 @@ export default function Contact() {
                     type="tel"
                     id="phone"
                     required
+                    maxLength={20}
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, phone: sanitizePhone(e.target.value) });
+                      if (errors.phone) setErrors({ ...errors, phone: undefined });
+                    }}
                     className="w-full bg-transparent border-b border-white-off/20 py-3 text-paper focus:outline-none focus:border-crimson transition-colors font-sans"
                     placeholder="Enter your mobile number"
                   />
+                  {errors.phone && (
+                    <p className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.phone}</p>
+                  )}
                 </div>
 
                 <div className="pt-4">
