@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 
+
 export default function Philosophy() {
   return (
     <section id="philosophy" className="py-32 relative bg-deep-red/10 overflow-hidden">

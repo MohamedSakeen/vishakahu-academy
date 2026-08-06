@@ -49,7 +49,7 @@ export default function Contact() {
             <div className="space-y-8">
               <div>
                 <h4 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Chief Instructor</h4>
-                <p className="text-paper text-lg font-serif">Kyoshi Vishnwarthan</p>
+                <p className="text-paper text-lg font-serif">Kyoshi Vishnuwarthan</p>
               </div>
               
               <div>

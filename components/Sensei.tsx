@@ -62,9 +62,10 @@ export default function Sensei() {
 
               <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
-                  { value: '25+', label: 'Years Exp' },
-                  { value: '8', label: 'Dojos' },
-                  { value: '1000+', label: 'Students' },
+                  { value: '30+', label: 'Years Exp' },
+                  { value: '7', label: 'Dojos' },
+                  { value: '1000+', label: 'Students Trained' },
+                  { value: '300+', label: 'Champions' },
                 ].map((stat, i) => (
                   <div key={i} className="text-center p-4 border border-white-off/10 bg-white-off/[0.02]">
                     <div className="text-gold font-serif text-2xl mb-1">{stat.value}</div>
