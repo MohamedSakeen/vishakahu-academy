@@ -5,3 +5,6 @@ coverage/
 *.log
 .env*
 !.env.example
+AGENTS.md
+CLAUDE.md
+tsconfig.tsbuildinfo

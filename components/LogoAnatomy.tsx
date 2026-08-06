@@ -5,16 +5,16 @@ import Image from 'next/image';
 import Vishakahu from '../app/uploads/Vishakahu.png';
 
 const ANNOTATIONS = [
-  { id: 'card-1',  target: 'logo-text-top',    side: 'left',  color: 'gold',    title: 'VI · SHA',      desc: "'VI' denotes Hussaini's Disciple (Vishnu). 'SHA' denotes Disciple's Mother (Shanmugavalli)." },
-  { id: 'card-2',  target: 'logo-text-top',    side: 'left', color: 'gold',    title: 'KA · HU',       desc: "'KA' denotes Disciple's Father (Kathirvel). 'HU' denotes Shihan Hussaini, God father of Isshinryu Karate and Vishnu's Guru." },
-  { id: 'card-3',  target: 'logo-stars',       side: 'left',  color: 'crimson', title: 'Four Stars',    desc: "Four stars symbolise the importance of Madha, Pidha, Guru and Dev in our entire life." },
-  { id: 'card-4',  target: 'logo-red-circle',  side: 'left', color: 'crimson', title: 'Red Circle',    desc: "The Red Circle signifies the true Enlightenment attained by the amazing art of Karate." },
-  { id: 'card-5',  target: 'logo-fist',        side: 'left',  color: 'gold',    title: 'Clenched Fist', desc: "Clenched fist is the indication of Empty Hand Weapon." },
-  { id: 'card-6',  target: 'logo-open-hand',   side: 'right', color: 'gold',    title: 'Open Hand',     desc: "The Open Hand manifests no to violence." },
-  { id: 'card-7',  target: 'logo-figure',      side: 'right', color: 'crimson', title: 'The Figure',    desc: "Isshinryu style Goddess 'Mizugami' seated on the ocean is replaced by 'Buddha' seated on bloomed lotus." },
-  { id: 'card-8',  target: 'logo-lotus',       side: 'right',  color: 'gold',    title: 'Bloomed Lotus', desc: "The Bloomed Lotus stands for the development of the Mind, Body and Spirit." },
-  { id: 'card-9',  target: 'logo-text-bottom', side: 'right',  color: 'crimson', title: 'Style Name',    desc: "Represents particular Style of Karate." },
-  { id: 'card-10', target: 'logo-text-bottom', side: 'right', color: 'crimson', title: 'Art Form',      desc: "Represents the name particular Art form." },
+  { id: 'card-1',  side: 'left',  color: 'gold',    title: 'VI · SHA',      desc: "'VI' denotes Hussaini's Disciple (Vishnu). 'SHA' denotes Disciple's Mother (Shanmugavalli)." },
+  { id: 'card-2',  side: 'left',  color: 'gold',    title: 'KA · HU',       desc: "'KA' denotes Disciple's Father (Kathirvel). 'HU' denotes Shihan Hussaini, God father of Isshinryu Karate and Vishnu's Guru." },
+  { id: 'card-3',  side: 'left',  color: 'crimson', title: 'Four Stars',    desc: "Four stars symbolise the importance of Madha, Pidha, Guru and Dev in our entire life." },
+  { id: 'card-4',  side: 'left',  color: 'crimson', title: 'Red Circle',    desc: "The Red Circle signifies the true Enlightenment attained by the amazing art of Karate." },
+  { id: 'card-5',  side: 'left',  color: 'gold',    title: 'Clenched Fist', desc: "Clenched fist is the indication of Empty Hand Weapon." },
+  { id: 'card-6',  side: 'right', color: 'gold',    title: 'Open Hand',     desc: "The Open Hand manifests no to violence." },
+  { id: 'card-7',  side: 'right', color: 'crimson', title: 'The Figure',    desc: "Isshinryu style Goddess 'Mizugami' seated on the ocean is replaced by 'Buddha' seated on bloomed lotus." },
+  { id: 'card-8',  side: 'right', color: 'gold',    title: 'Bloomed Lotus', desc: "The Bloomed Lotus stands for the development of the Mind, Body and Spirit." },
+  { id: 'card-9',  side: 'right', color: 'crimson', title: 'Style Name',    desc: "Represents particular Style of Karate." },
+  { id: 'card-10', side: 'right', color: 'crimson', title: 'Art Form',      desc: "Represents the name particular Art form." },
 ];
 
 export default function LogoAnatomy() {
@@ -34,19 +34,6 @@ export default function LogoAnatomy() {
     if (!isActive) return;
     document.querySelectorAll('.la-card').forEach(c => c.classList.add('visible'));
   }, [isActive]);
-
-  const handleInteraction = (cardId: string, targetId: string) => {
-    document.querySelectorAll('.la-card').forEach(el => {
-      if (el.id !== cardId) el.classList.add('dimmed');
-    });
-    document.getElementById(cardId)?.classList.add('active');
-    document.getElementById(targetId)?.classList.add('highlighted');
-  };
-
-  const handleLeave = () => {
-    document.querySelectorAll('.la-card').forEach(el => el.classList.remove('dimmed', 'active'));
-    document.querySelectorAll('.highlighted').forEach(el => el.classList.remove('highlighted'));
-  };
 
   return (
     <>
@@ -109,7 +96,7 @@ export default function LogoAnatomy() {
           opacity: 0;
         }
         #logo-anatomy.section-active .la-logo-wrap {
-          animation: logo-enter 0.8s ease-out forwards 0.5s, logo-breathe 3s ease-in-out infinite 1.3s;
+          animation: logo-enter 0.8s ease-out forwards 0.5s;
         }
         .la-logo-svg {
           height: min(58vh, 400px);
@@ -131,7 +118,7 @@ export default function LogoAnatomy() {
           z-index: 10;
         }
         .la-col-left  { left: 0;  padding: 20px 20px 20px 40px; }
-        .la-col-right { right: 0; padding: 20px 40px 20px 20px; align-items: flex-end; }
+        .la-col-right { right: 0; padding: 20px 40px 20px 20px; }
 
         @media (max-width: 1200px) {
           .la-col-left, .la-col-right {
@@ -193,7 +180,7 @@ export default function LogoAnatomy() {
           text-align: left;
         }
 
-        /* Right-side card: accent on right, title right-aligned, desc left-aligned */
+        /* Right-side card: accent on right, title left-aligned, desc left-aligned */
         .la-card[data-side="right"] {
           border-right: 2px solid var(--card-color);
           transform: translateX(30px);
@@ -201,7 +188,7 @@ export default function LogoAnatomy() {
           text-align: left;
         }
         .la-card[data-side="right"] .la-card-title {
-          text-align: right;
+          text-align: left;
         }
 
         @media (max-width: 1200px) {
@@ -224,7 +211,6 @@ export default function LogoAnatomy() {
           .la-card.visible { transform: translateY(0) !important; }
         }
 
-        .la-card.active,
         .la-card:hover {
           background: rgba(192,57,43,0.08);
           border-color: var(--card-color) !important;
@@ -232,7 +218,6 @@ export default function LogoAnatomy() {
           transform: scale(1.02) translateX(0) !important;
           z-index: 100;
         }
-        .la-card.dimmed { opacity: 0.35 !important; }
 
         /* ── Card text ── */
         .la-card-title {
@@ -282,17 +267,6 @@ export default function LogoAnatomy() {
           animation: bracket-appear 0.6s forwards 0.8s;
         }
 
-        /* ── Hotspots ── */
-        .la-svg-group {
-          pointer-events: all;
-          cursor: crosshair;
-        }
-        .highlighted {
-          outline: 1px dashed rgba(212,160,23,0.35);
-          outline-offset: 4px;
-          border-radius: 4px;
-        }
-
         /* ── Keyframes ── */
         @keyframes header-drop {
           from { opacity: 0; transform: translateY(-20px); }
@@ -300,11 +274,7 @@ export default function LogoAnatomy() {
         }
         @keyframes logo-enter {
           from { opacity: 0; transform: scale(0.85); filter: drop-shadow(0 0 0px transparent); }
-          to   { opacity: 1; transform: scale(1);    filter: drop-shadow(0 0 40px rgba(192,57,43,0.25)); }
-        }
-        @keyframes logo-breathe {
-          0%,100% { filter: drop-shadow(0 0 20px rgba(192,57,43,0.2)); transform: scale(1); }
-          50%     { filter: drop-shadow(0 0 40px rgba(192,57,43,0.45)); transform: scale(1.015); }
+          to   { opacity: 1; transform: scale(1);    filter: drop-shadow(0 0 10px rgba(192,57,43,0.15)); }
         }
         @keyframes kanji-bg-float {
           from { transform: translateY(-50%) translateY(0); }
@@ -350,11 +320,7 @@ export default function LogoAnatomy() {
                 id={ann.id}
                 className="la-card"
                 data-side={ann.side}
-                data-target={ann.target}
                 style={{ '--card-color': ann.color === 'gold' ? '#D4A017' : '#C0392B' } as React.CSSProperties}
-                onMouseEnter={() => handleInteraction(ann.id, ann.target)}
-                onMouseLeave={handleLeave}
-                onClick={() => handleInteraction(ann.id, ann.target)}
               >
                 <p className="la-card-title">{ann.title}</p>
                 <p className="la-card-desc">{ann.desc}</p>
@@ -362,7 +328,7 @@ export default function LogoAnatomy() {
             ))}
           </div>
 
-          {/* Centre — logo image with hotspots */}
+          {/* Centre — logo image */}
           <div
             className="la-logo-wrap"
             style={{ width: 'min(400px, 100%)', aspectRatio: '400/520', margin: '0 auto', position: 'relative' }}
@@ -371,35 +337,9 @@ export default function LogoAnatomy() {
               src={Vishakahu}
               alt="Vishakahu Academy Logo"
               fill
+              sizes="(max-width: 768px) 100vw, 400px"
               className="la-logo-svg object-contain"
-              style={{ cursor: 'crosshair' }}
               referrerPolicy="no-referrer"
-            />
-
-            {/* Hotspots */}
-            <div
-              id="logo-text-top"
-              className="la-svg-group absolute top-[4%] left-[10%] right-[10%] h-[15%] rounded-[50%_50%_0_0]"
-              onMouseEnter={() => { handleInteraction('card-1', 'logo-text-top'); handleInteraction('card-2', 'logo-text-top'); }}
-              onMouseLeave={handleLeave}
-            />
-            <div
-              id="logo-stars"
-              className="la-svg-group absolute top-[18%] left-[25%] right-[25%] h-[12%] rounded-full"
-              onMouseEnter={() => handleInteraction('card-3', 'logo-stars')}
-              onMouseLeave={handleLeave}
-            />
-            <div
-              id="logo-red-circle"
-              className="la-svg-group absolute top-[23%] left-[28%] right-[28%] aspect-square rounded-full"
-              onMouseEnter={() => handleInteraction('card-4', 'logo-red-circle')}
-              onMouseLeave={handleLeave}
-            />
-            <div
-              id="logo-text-bottom"
-              className="la-svg-group absolute bottom-[4%] left-[10%] right-[10%] h-[15%] rounded-[0_0_50%_50%]"
-              onMouseEnter={() => { handleInteraction('card-9', 'logo-text-bottom'); handleInteraction('card-10', 'logo-text-bottom'); }}
-              onMouseLeave={handleLeave}
             />
           </div>
 
@@ -411,11 +351,7 @@ export default function LogoAnatomy() {
                 id={ann.id}
                 className="la-card"
                 data-side={ann.side}
-                data-target={ann.target}
                 style={{ '--card-color': ann.color === 'gold' ? '#D4A017' : '#C0392B' } as React.CSSProperties}
-                onMouseEnter={() => handleInteraction(ann.id, ann.target)}
-                onMouseLeave={handleLeave}
-                onClick={() => handleInteraction(ann.id, ann.target)}
               >
                 <p className="la-card-title">{ann.title}</p>
                 <p className="la-card-desc">{ann.desc}</p>

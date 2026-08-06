@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="en" className={`${cinzel.variable} ${notoSerifJP.variable} ${notoSans.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${cinzel.variable} ${notoSerifJP.variable} ${notoSans.variable}`}>
       <body suppressHydrationWarning className="bg-ink text-paper font-sans antialiased">
         {children}
       </body>
