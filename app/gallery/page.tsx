@@ -7,23 +7,33 @@ import Link from 'next/link';
 
 interface GalleryItem {
   id: string;
-  src: string;
+  src: string;          // Full original high-res image URL
+  thumbnailSrc?: string; // Lightweight WebP template thumbnail URL (~40KB)
   title: string;
   filename: string;
 }
 
+let galleryCache: GalleryItem[] | null = null;
+
 export default function GalleryPage() {
-  const [items, setItems] = useState<GalleryItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState<GalleryItem[]>(galleryCache || []);
+  const [loading, setLoading] = useState(!galleryCache);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   useEffect(() => {
+    if (galleryCache && galleryCache.length > 0) {
+      setLoading(false);
+      return;
+    }
+
     async function fetchGallery() {
       try {
         const res = await fetch('/api/gallery');
         if (res.ok) {
           const data = await res.json();
-          setItems(data.items || []);
+          const list = data.items || [];
+          galleryCache = list;
+          setItems(list);
         }
       } catch (err) {
         console.error("Failed to load gallery images:", err);
@@ -33,6 +43,13 @@ export default function GalleryPage() {
     }
     fetchGallery();
   }, []);
+
+  const handlePreloadOriginal = (src: string) => {
+    if (typeof window !== 'undefined') {
+      const img = new window.Image();
+      img.src = src;
+    }
+  };
 
   const handleNextImage = () => {
     if (selectedImageIndex !== null && items.length > 0) {
@@ -103,13 +120,18 @@ export default function GalleryPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-                  onClick={() => setSelectedImageIndex(idx)}
+                  onClick={() => {
+                    handlePreloadOriginal(item.src);
+                    setSelectedImageIndex(idx);
+                  }}
+                  onMouseEnter={() => handlePreloadOriginal(item.src)}
                   className="group relative overflow-hidden bg-white-off/5 break-inside-avoid w-full cursor-pointer border border-white/5 hover:border-gold/40 transition-colors duration-300"
                 >
                   <img
-                    src={item.src}
+                    src={item.thumbnailSrc || item.src}
                     alt="Academy Photo"
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-auto object-contain block transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                   

@@ -7,6 +7,7 @@ import Link from 'next/link';
 interface GalleryItem {
   id: string;
   src: string;
+  thumbnailSrc?: string;
   title: string;
   filename: string;
 }
@@ -76,9 +77,10 @@ export default function Gallery() {
                 <Link href="/gallery">
                   <div className="w-full h-full relative transition-all duration-700">
                     <img 
-                      src={item.src}
+                      src={item.thumbnailSrc || item.src}
                       alt="Academy Photo"
                       loading="lazy"
+                      decoding="async"
                       className="w-full h-auto object-contain block transition-transform duration-700 group-hover:scale-[1.02]"
                     />
                   </div>
