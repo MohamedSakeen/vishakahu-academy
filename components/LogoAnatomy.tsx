@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Vishakahu from '../app/uploads/Vishakahu.png';
 
 const ANNOTATIONS = [
-  { id: 'card-1',  side: 'left',  color: 'gold',    title: 'VI · SHA',      desc: "'VI' denotes Hussaini's Disciple (Vishnu). 'SHA' denotes Disciple's Mother (Shanmugavalli)." },
+  { id: 'card-1',  side: 'left',  color: 'gold',    title: 'VI · SHA',      desc: "'VI' denotes Hussaini's Disciple (Vishnuwarthan). 'SHA' denotes Disciple's Mother (Shanmugavalli)." },
   { id: 'card-2',  side: 'left',  color: 'gold',    title: 'KA · HU',       desc: "'KA' denotes Disciple's Father (Kathirvel). 'HU' denotes Shihan Hussaini, God father of Isshinryu Karate and Vishnu's Guru." },
   { id: 'card-3',  side: 'left',  color: 'crimson', title: 'Four Stars',    desc: "Four stars symbolise the importance of Madha, Pidha, Guru and Dev in our entire life." },
   { id: 'card-4',  side: 'left',  color: 'crimson', title: 'Red Circle',    desc: "The Red Circle signifies the true Enlightenment attained by the amazing art of Karate." },

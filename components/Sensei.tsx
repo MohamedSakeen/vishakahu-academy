@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import Image from 'next/image';
+import Vishnu from '../public/masters/Vishnu_sensei.jpeg';
 
 export default function Sensei() {
   return (
@@ -40,19 +41,19 @@ export default function Sensei() {
               transition={{ duration: 0.8 }}
             >
               <h3 className="text-3xl font-serif text-paper mb-2">
-                Kyoshi Vishnwarthan
+                Kyoshi Vishnuwarthan
               </h3>
-              <div className="text-gold font-serif tracking-[0.2em] mb-8 uppercase text-sm">
-                Chief Instructor, Vishakahu Academy
+              <div className="text-gold font-roboto tracking-[0.1em] mb-8 text-sm">
+                7th Dan - IIWKA, Founder of Vishakahu Academy
               </div>
               
               <div className="space-y-6 text-white-off/70 font-sans leading-relaxed">
                 <p>
                   Trained under the legendary India lineage founded by Hanshi Shihan Hussaini 
-                  and currently led by Hanshi Sellapandiyan across Tamil Nadu.
+                  and currently led by Hanshi Sellapandiyan across India.
                 </p>
                 <p>
-                  Kyoshi Vishnwarthan embodies the spirit of Isshinryu—balancing the hard and 
+                  Kyoshi Vishnuwarthan embodies the spirit of Isshinryu—balancing the hard and 
                   soft elements of martial arts. He has founded multiple branches across 
                   Tirunelveli and Chennai, dedicating his life to shaping the next generation 
                   of warriors.
@@ -61,10 +62,9 @@ export default function Sensei() {
 
               <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
-                  { value: '20+', label: 'Years Exp' },
-                  { value: '5', label: 'Dojos' },
-                  { value: '500+', label: 'Students' },
-                  { value: '1st', label: 'Place Wins' }
+                  { value: '25+', label: 'Years Exp' },
+                  { value: '8', label: 'Dojos' },
+                  { value: '1000+', label: 'Students' },
                 ].map((stat, i) => (
                   <div key={i} className="text-center p-4 border border-white-off/10 bg-white-off/[0.02]">
                     <div className="text-gold font-serif text-2xl mb-1">{stat.value}</div>
@@ -82,38 +82,34 @@ export default function Sensei() {
                       rank: '2nd Dan - IIWKA',
                       branch: 'Citilights Meadows Dojo',
                       lineClass: 'bg-crimson',
-                      gradientClass: 'from-crimson/80',
-                      image: 'https://images.unsplash.com/photo-1583468323330-f010c0e0f22f?w=400&h=400&fit=crop&q=80'
                     },
                     {
                       name: 'Sensei Muthu Akash',
                       rank: '2nd Dan - IIWKA',
-                      branch: 'Suthamalli Dojo',
+                      branch: 'Town Dojo',
                       lineClass: 'bg-gold',
-                      gradientClass: 'from-gold/80',
-                      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&q=80'
+                    },
+                    {
+                      name: 'Sensei Naveen Raja',
+                      rank: '2nd Dan - IIWKA',
+                      branch: 'Ambasamudram Dojo',
+                      lineClass: 'bg-gold',
+                    },
+                    {
+                      name: 'Sensei Veeraragavan',
+                      rank: '1st Dan - IIWKA',
+                      branch: 'Ambasamudram Dojo',
+                      lineClass: 'bg-gold',
                     }
                   ].map((instructor, idx) => (
-                    <div key={idx} className="group relative bg-white-off/[0.02] border border-white-off/10 overflow-hidden interactive cursor-pointer min-h-[140px]">
-                      {/* Image that fades in on hover */}
-                      <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-ink">
-                        <img 
-                          src={instructor.image}
-                          alt={instructor.name}
-                          className="w-full h-full object-cover mix-blend-luminosity opacity-40 group-hover:scale-110 transition-transform duration-700 ease-out"
-                        />
-                        <div className={`absolute inset-0 bg-gradient-to-t ${instructor.gradientClass} via-ink/60 to-transparent mix-blend-multiply`} />
-                      </div>
-                      
-                      {/* Content */}
-                      <div className="relative z-10 p-6 flex flex-col h-full transform group-hover:-translate-y-1 transition-transform duration-500">
+                    <div key={idx} className="p-6 bg-white-off/[0.02] border border-white-off/10 flex flex-col justify-between min-h-[140px]">
+                      <div>
                         <div className={`w-8 h-[2px] ${instructor.lineClass} mb-4`} />
-                        <h5 className="text-paper font-serif text-lg mb-1 group-hover:text-white transition-colors">{instructor.name}</h5>
+                        <h5 className="text-paper font-serif text-lg mb-1">{instructor.name}</h5>
                         <div className="text-gold text-xs tracking-widest uppercase mb-1">{instructor.rank}</div>
-                        <div className="text-white-off/50 text-[0.65rem] tracking-widest uppercase mt-auto pt-4 flex items-center justify-between">
-                          <span>{instructor.branch}</span>
-                          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:translate-x-0 -translate-x-2 text-gold">→</span>
-                        </div>
+                      </div>
+                      <div className="text-white-off/50 text-[0.65rem] tracking-widest uppercase pt-4">
+                        {instructor.branch}
                       </div>
                     </div>
                   ))}
@@ -123,24 +119,29 @@ export default function Sensei() {
             </motion.div>
           </div>
 
-          {/* Sensei Image Placeholder */}
+          {/* Sensei Image */}
           <div className="lg:col-span-5 order-1 lg:order-2">
             <motion.div 
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="relative aspect-[3/4] w-full max-w-md mx-auto grayscale hover:grayscale-0 transition-all duration-700"
+              className="relative aspect-[3/4] w-full max-w-md mx-auto transition-all duration-700 overflow-hidden rounded border border-white-off/10"
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent z-10" />
-              <div className="w-full h-full bg-white-off/5 flex items-center justify-center border border-white-off/10">
-                <div className="text-white-off/20 font-jp text-6xl">師範</div>
-              </div>
+              <Image 
+                src={Vishnu}
+                alt="Kyoshi Vishnuwarthan"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 400px"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent z-10 pointer-events-none" />
               
               {/* Decorative Frame */}
-              <div className="absolute -inset-4 border border-gold/30 z-0 hidden md:block" />
-              <div className="absolute -top-6 -right-6 w-12 h-12 border-t border-r border-gold z-0 hidden md:block" />
-              <div className="absolute -bottom-6 -left-6 w-12 h-12 border-b border-l border-gold z-0 hidden md:block" />
+              <div className="absolute -inset-4 border border-gold/30 z-0 hidden md:block pointer-events-none" />
+              <div className="absolute -top-6 -right-6 w-12 h-12 border-t border-r border-gold z-0 hidden md:block pointer-events-none" />
+              <div className="absolute -bottom-6 -left-6 w-12 h-12 border-b border-l border-gold z-0 hidden md:block pointer-events-none" />
             </motion.div>
           </div>
         </div>

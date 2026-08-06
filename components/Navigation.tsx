@@ -35,9 +35,9 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group relative z-50">
-          <div className="w-10 h-10 rounded-full bg-crimson flex flex-col items-center justify-center text-xs font-jp font-bold text-paper border-2 border-gold shadow-[0_0_15px_rgba(212,160,23,0.3)] transition-transform group-hover:scale-105">
+          {/* <div className="w-10 h-10 rounded-full bg-crimson flex flex-col items-center justify-center text-xs font-jp font-bold text-paper border-2 border-gold shadow-[0_0_15px_rgba(212,160,23,0.3)] transition-transform group-hover:scale-105">
              空手
-          </div>
+          </div> */}
           <div className="flex flex-col">
             <h1 className="font-serif text-lg tracking-widest text-paper uppercase group-hover:text-gold transition-colors">
               Vishakahu
