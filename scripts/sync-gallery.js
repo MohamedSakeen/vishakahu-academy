@@ -122,7 +122,7 @@ async function runSync() {
     try {
       // 1. Normalize original high-res image (bake EXIF orientation into pixels)
       const normalizedOrgBuffer = await sharp(imageBuffer)
-        // .rotate()
+        .rotate()
         .jpeg({ quality: 92 })
         .toBuffer();
 

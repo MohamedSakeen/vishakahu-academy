@@ -72,16 +72,16 @@ export default function Gallery() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="relative overflow-hidden group bg-white-off/5 break-inside-avoid w-full mb-4 border border-white/5 hover:border-gold/40 transition-all duration-300"
+                className="relative overflow-hidden group bg-white-off/5 break-inside-avoid w-full mb-4 border border-white/5 hover:border-gold/40 transition-all duration-300 rounded-sm"
               >
                 <Link href="/gallery">
-                  <div className="w-full h-full relative transition-all duration-700">
+                  <div className="w-full relative overflow-hidden">
                     <img 
                       src={item.thumbnailSrc || item.src}
                       alt={item.title || "Academy Photo"}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-auto block object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                      className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
                     />
                   </div>
                 </Link>

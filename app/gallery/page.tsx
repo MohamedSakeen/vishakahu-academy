@@ -125,14 +125,14 @@ export default function GalleryPage() {
                     setSelectedImageIndex(idx);
                   }}
                   onMouseEnter={() => handlePreloadOriginal(item.src)}
-                  className="group relative overflow-hidden bg-white-off/5 break-inside-avoid w-full mb-4 cursor-pointer border border-white/5 hover:border-gold/40 transition-colors duration-300"
+                  className="group relative overflow-hidden bg-white-off/5 break-inside-avoid w-full mb-4 cursor-pointer border border-white/5 hover:border-gold/40 transition-colors duration-300 rounded-sm"
                 >
                   <img
                     src={item.thumbnailSrc || item.src}
                     alt={item.title || "Academy Photo"}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-auto block object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                    className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                   
                   {/* Hover Overlay */}
