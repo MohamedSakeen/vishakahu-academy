@@ -1,0 +1,8 @@
+{
+  "name": "Vishakahu Academy",
+  "description": "Vishakahu Academy - The Path of Discipline. Isshinryu Karate Dojo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
