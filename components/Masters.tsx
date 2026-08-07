@@ -49,18 +49,18 @@ const MASTERS_DATA = [
     kanji: '道',
     accent: '#F5C842',
     accentRGB: '245,200,66',
-    bio: 'Shihan Hussaini is the founding pioneer who introduced authentic Isshinryu to India, who also known as Father of Isshinyu Karate India. Trained more than 5000 students across India ',
+    bio: 'Shihan Hussaini is the founding pioneer who introduced authentic Isshinryu to India, who also known as Father of Isshinyu Karate India. Trained more than 100000+ students across India ',
     image: ShihanHussainiImg.src  
   },
   {
-    nameEN: 'Hanshi Sellapandiyan',
+    nameEN: 'Hanshi Sella Pandiyan',
     era: 'Active present day',
     title: 'Hanshi · India Head',
     rank: 'Hanshi',
     kanji: '師',
     accent: '#D4A017',
     accentRGB: '212,160,23',
-    bio: 'Current Head of Isshinryu Karate India, Hanshi Sellapandiyan has built upon the legacy of Shihan Hussaini to grow the art. Under his national leadership, hundreds carry the One Heart Way forward.',
+    bio: 'Current Head of Isshinryu Karate India, Hanshi Sella Pandiyan has built upon the legacy of Shihan Hussaini to grow the art. Under his national leadership, hundreds carry the One Heart Way forward.',
     image: Sellapandiyan.src
   }
 ];

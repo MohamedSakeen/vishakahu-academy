@@ -39,7 +39,7 @@ export default function Sensei() {
               <div className="space-y-6 text-white-off/70 font-sans leading-relaxed">
                 <p>
                   Trained under the legendary India lineage founded by Hanshi Shihan Hussaini
-                  and currently led by Hanshi Sellapandiyan across India.
+                  and currently led by Hanshi Sella Pandiyan across India.
                 </p>
                 <p>
                   Kyoshi Vishnu embodies the spirit of Isshinryu—balancing the hard and
@@ -88,7 +88,13 @@ export default function Sensei() {
                     {
                       name: 'Sensei Veeraragavan',
                       rank: '1st Dan - IIWKA',
-                      branch: 'Ambasamudram Dojo',
+                      branch: 'Mukkudal Dojo',
+                      lineClass: 'bg-gold',
+                    },
+                    {
+                      name: 'Sensei Thasvin Anto',
+                      rank: '1st Dan - IIWKA',
+                      branch: 'Suthamalli Dojo',
                       lineClass: 'bg-gold',
                     }
                   ].map((instructor, idx) => (
