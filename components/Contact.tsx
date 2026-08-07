@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'motion/react';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 
@@ -16,7 +15,7 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Perform thorough validation & sanitization
     const newErrors: { name?: string; email?: string; phone?: string } = {};
 
@@ -91,12 +90,7 @@ export default function Contact() {
 
         {/* Contact Info */}
         <div className="w-full lg:w-1/2">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
+          <div>
             <span className="text-gold font-serif text-sm tracking-[0.3em] uppercase block mb-4">
               Join Us
             </span>
@@ -116,7 +110,7 @@ export default function Contact() {
             <div className="space-y-8">
               <div>
                 <h4 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Chief Instructor</h4>
-                <p className="text-paper text-lg font-serif">Kyoshi Vishnuwarthan</p>
+                <p className="text-paper text-lg font-serif">Kyoshi Vishnu</p>
               </div>
 
               <div>
@@ -133,18 +127,12 @@ export default function Contact() {
                 </a>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Enrollment Form */}
         <div className="w-full lg:w-1/2">
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-white-off/[0.02] border border-white-off/10 p-8 md:p-12"
-          >
+          <div className="bg-white-off/[0.02] border border-white-off/10 p-8 md:p-12">
             {submitted ? (
               <div className="text-center py-20">
                 <div className="w-16 h-16 rounded-full bg-crimson/20 text-crimson flex items-center justify-center mx-auto mb-6">
@@ -226,7 +214,7 @@ export default function Contact() {
                 </div>
               </form>
             )}
-          </motion.div>
+          </div>
         </div>
 
       </div>

@@ -86,13 +86,13 @@ function TiltCard({ program, index }: { program: typeof PROGRAMS[0], index: numb
       style={{
         perspective: 1000,
       }}
-      className="relative w-full h-80 cursor-pointer interactive"
+      className="relative w-full h-64 sm:h-72 cursor-pointer interactive"
     >
       <motion.div
         animate={{ rotateX, rotateY }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         style={{ transformStyle: 'preserve-3d' }}
-        className={`w-full h-full rounded-sm border border-white-off/10 p-8 flex flex-col justify-between overflow-hidden shadow-xl ${program.bg}`}
+        className={`w-full h-full rounded-sm border border-white-off/10 p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-xl ${program.bg}`}
       >
         <div 
           className="absolute -right-4 -bottom-8 text-[120px] font-jp text-white-off/[0.03] select-none pointer-events-none"
@@ -112,12 +112,6 @@ function TiltCard({ program, index }: { program: typeof PROGRAMS[0], index: numb
             {program.desc}
           </p>
         </div>
-        
-        <div style={{ transform: 'translateZ(40px)' }}>
-          <div className="text-crimson border border-crimson/30 self-start inline-block px-2 py-1 uppercase tracking-tighter text-[0.6rem]">
-            Learn More
-          </div>
-        </div>
       </motion.div>
     </motion.div>
   );
@@ -125,7 +119,7 @@ function TiltCard({ program, index }: { program: typeof PROGRAMS[0], index: numb
 
 export default function Classes() {
   return (
-    <section id="classes" className="py-32 relative bg-ink">
+    <section id="classes" className="py-16 md:py-32 relative bg-ink">
       <div className="absolute top-10 right-10 text-[200px] font-jp opacity-[0.02] kanji-watermark pointer-events-none">
         武道
       </div>
@@ -135,7 +129,7 @@ export default function Classes() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-10 md:mb-20"
         >
           <span className="text-gold font-serif text-sm tracking-[0.3em] uppercase block mb-4">
             Training Programs
@@ -150,7 +144,7 @@ export default function Classes() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {PROGRAMS.map((program, index) => (
             <TiltCard key={program.title} program={program} index={index} />
           ))}

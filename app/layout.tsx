@@ -1,4 +1,4 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
 import { Cinzel, Noto_Serif_JP, Noto_Sans } from 'next/font/google';
 import './globals.css';
 
@@ -26,12 +26,12 @@ export const metadata: Metadata = {
     default: 'Vishakahu Academy | Isshinryu Karate Dojo',
     template: '%s | Vishakahu Academy',
   },
-  description: 'Vishakahu Academy — Premier Isshinryu Karate Dojo led by Kyoshi Vishnuwarthan. Combining traditional discipline, physical fitness, and practical self-defense.',
+  description: 'Vishakahu Academy — Premier Isshinryu Karate Dojo led by Kyoshi Vishnu. Combining traditional discipline, physical fitness, and practical self-defense.',
   keywords: [
     'Vishakahu Academy',
     'Isshinryu Karate',
     'Karate Dojo',
-    'Kyoshi Vishnuwarthan',
+    'Kyoshi Vishnu',
     'Self Defense',
     'Martial Arts',
     'Tirunelveli Karate',
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vishakahu Academy | Isshinryu Karate Dojo',
-    description: 'Premier Isshinryu Karate Dojo led by Kyoshi Vishnuwarthan.',
+    description: 'Premier Isshinryu Karate Dojo led by Kyoshi Vishnu.',
   },
 };
 
@@ -72,7 +72,7 @@ const jsonLd = {
   '@type': 'SportsActivityLocation',
   'name': 'Vishakahu Academy',
   'alternateName': 'Vishakahu Isshinryu Karate Dojo',
-  'description': 'Premier Isshinryu Karate Dojo led by Kyoshi Vishnuwarthan. Combining traditional discipline, physical fitness, weapon training (Kobudo), and practical self-defense.',
+  'description': 'Premier Isshinryu Karate Dojo led by Kyoshi Vishnu. Combining traditional discipline, physical fitness, weapon training (Kobudo), and practical self-defense.',
   'url': defaultUrl,
   'telephone': '+91-98400-00000',
   'address': {
@@ -97,7 +97,7 @@ const jsonLd = {
   ]
 };
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${cinzel.variable} ${notoSerifJP.variable} ${notoSans.variable}`}>
       <head>

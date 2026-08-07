@@ -5,16 +5,16 @@ import Image from 'next/image';
 import Vishakahu from '../app/uploads/Vishakahu.png';
 
 const ANNOTATIONS = [
-  { id: 'card-1',  side: 'left',  color: 'gold',    title: 'VI · SHA',      desc: "'VI' denotes Hussaini's Disciple (Vishnuwarthan). 'SHA' denotes Disciple's Mother (Shanmugavalli)." },
-  { id: 'card-2',  side: 'left',  color: 'gold',    title: 'KA · HU',       desc: "'KA' denotes Disciple's Father (Kathirvel). 'HU' denotes Shihan Hussaini, God father of Isshinryu Karate and Vishnu's Guru." },
-  { id: 'card-3',  side: 'left',  color: 'crimson', title: 'Four Stars',    desc: "Four stars symbolise the importance of Madha, Pidha, Guru and Dev in our entire life." },
-  { id: 'card-4',  side: 'left',  color: 'crimson', title: 'Red Circle',    desc: "The Red Circle signifies the true Enlightenment attained by the amazing art of Karate." },
-  { id: 'card-5',  side: 'left',  color: 'gold',    title: 'Clenched Fist', desc: "Clenched fist is the indication of Empty Hand Weapon." },
-  { id: 'card-6',  side: 'right', color: 'gold',    title: 'Open Hand',     desc: "The Open Hand manifests no to violence." },
-  { id: 'card-7',  side: 'right', color: 'crimson', title: 'The Figure',    desc: "Isshinryu style Goddess 'Mizugami' seated on the ocean is replaced by 'Buddha' seated on bloomed lotus." },
-  { id: 'card-8',  side: 'right', color: 'gold',    title: 'Bloomed Lotus', desc: "The Bloomed Lotus stands for the development of the Mind, Body and Spirit." },
-  { id: 'card-9',  side: 'right', color: 'crimson', title: 'Style Name',    desc: "Represents particular Style of Karate." },
-  { id: 'card-10', side: 'right', color: 'crimson', title: 'Art Form',      desc: "Represents the name particular Art form." },
+  { id: 'card-1', side: 'left', color: 'gold', title: 'VI · SHA', desc: "'VI' denotes Hussaini's Disciple (Vishnu). 'SHA' denotes Disciple's Mother (Shanmugavalli)." },
+  { id: 'card-2', side: 'left', color: 'gold', title: 'KA · HU', desc: "'KA' denotes Disciple's Father (Kathirvel). 'HU' denotes Shihan Hussaini, God father of Isshinryu Karate and Vishnu's Guru." },
+  { id: 'card-3', side: 'left', color: 'crimson', title: 'Four Stars', desc: "Four stars symbolise the importance of Madha, Pidha, Guru and Dev in our entire life." },
+  { id: 'card-4', side: 'left', color: 'crimson', title: 'Red Circle', desc: "The Red Circle signifies the true Enlightenment attained by the amazing art of Karate." },
+  { id: 'card-5', side: 'left', color: 'gold', title: 'Clenched Fist', desc: "Clenched fist is the indication of Empty Hand Weapon." },
+  { id: 'card-6', side: 'right', color: 'gold', title: 'Open Hand', desc: "The Open Hand manifests no to violence." },
+  { id: 'card-7', side: 'right', color: 'crimson', title: 'The Figure', desc: "Isshinryu style Goddess 'Mizugami' seated on the ocean is replaced by 'Buddha' seated on bloomed lotus." },
+  { id: 'card-8', side: 'right', color: 'gold', title: 'Bloomed Lotus', desc: "The Bloomed Lotus stands for the development of the Mind, Body and Spirit." },
+  { id: 'card-9', side: 'right', color: 'crimson', title: 'Style Name', desc: "Represents particular Style of Karate." },
+  { id: 'card-10', side: 'right', color: 'crimson', title: 'Art Form', desc: "Represents the name particular Art form." },
 ];
 
 export default function LogoAnatomy() {
@@ -70,10 +70,7 @@ export default function LogoAnatomy() {
           text-align: center;
           position: relative;
           z-index: 20;
-          opacity: 0;
-        }
-        #logo-anatomy.section-active .la-header {
-          animation: header-drop 0.6s ease forwards 0.2s;
+          opacity: 1;
         }
 
         /* ── Canvas ── */
@@ -93,10 +90,7 @@ export default function LogoAnatomy() {
         .la-logo-wrap {
           position: relative;
           z-index: 5;
-          opacity: 0;
-        }
-        #logo-anatomy.section-active .la-logo-wrap {
-          animation: logo-enter 0.8s ease-out forwards 0.5s;
+          opacity: 1;
         }
         .la-logo-svg {
           height: min(58vh, 400px);
@@ -163,9 +157,8 @@ export default function LogoAnatomy() {
           border: 1px solid rgba(255,255,255,0.06);
           padding: 10px 14px;
           max-width: 200px;
-          opacity: 0;
-          transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease,
-                      box-shadow 0.3s ease, border-color 0.3s ease;
+          opacity: 1;
+          transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
           backdrop-filter: blur(6px);
           cursor: pointer;
           display: flex;
@@ -176,14 +169,12 @@ export default function LogoAnatomy() {
         /* Left-side card: accent on left, text left-aligned */
         .la-card[data-side="left"] {
           border-left: 2px solid var(--card-color);
-          transform: translateX(-30px);
           text-align: left;
         }
 
         /* Right-side card: accent on right, title left-aligned, desc left-aligned */
         .la-card[data-side="right"] {
           border-right: 2px solid var(--card-color);
-          transform: translateX(30px);
           align-self: flex-end;
           text-align: left;
         }
@@ -198,24 +189,15 @@ export default function LogoAnatomy() {
             border-right: 1px solid rgba(255,255,255,0.06) !important;
             align-self: auto !important;
             text-align: left !important;
-            transform: translateY(20px) !important;
           }
           .la-card[data-side="right"] .la-card-title { text-align: left !important; }
-        }
-
-        .la-card.visible {
-          opacity: 1;
-          transform: translateX(0) !important;
-        }
-        @media (max-width: 1200px) {
-          .la-card.visible { transform: translateY(0) !important; }
         }
 
         .la-card:hover {
           background: rgba(192,57,43,0.08);
           border-color: var(--card-color) !important;
           box-shadow: 0 0 20px rgba(192,57,43,0.2);
-          transform: scale(1.02) translateX(0) !important;
+          transform: scale(1.02) !important;
           z-index: 100;
         }
 
@@ -251,7 +233,6 @@ export default function LogoAnatomy() {
           opacity: 0.03;
           user-select: none;
           pointer-events: none;
-          animation: kanji-bg-float 8s infinite alternate ease-in-out;
           line-height: 1;
         }
 
@@ -261,10 +242,7 @@ export default function LogoAnatomy() {
           width: 30px; height: 30px;
           border-color: rgba(212,160,23,0.15);
           border-radius: 2px;
-          opacity: 0;
-        }
-        #logo-anatomy.section-active .corner-bracket {
-          animation: bracket-appear 0.6s forwards 0.8s;
+          opacity: 1;
         }
 
         /* ── Keyframes ── */
