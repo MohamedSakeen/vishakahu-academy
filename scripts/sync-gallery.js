@@ -51,41 +51,88 @@ function fetchBuffer(url) {
   });
 }
 
+async function listAllBucketFiles(folderPath = '') {
+  const allFiles = [];
+  const PAGE_SIZE = 100;
+  let offset = 0;
+  let hasMore = true;
+
+  while (hasMore) {
+    const { data, error } = await supabase.storage
+      .from(BUCKET)
+      .list(folderPath, { limit: PAGE_SIZE, offset });
+
+    if (error || !data || data.length === 0) {
+      hasMore = false;
+      break;
+    }
+
+    allFiles.push(...data);
+    if (data.length < PAGE_SIZE) {
+      hasMore = false;
+    } else {
+      offset += PAGE_SIZE;
+    }
+  }
+
+  return allFiles;
+}
+
 async function runSync() {
   console.log("==========================================");
   console.log("📸 VishakaHu Gallery Auto-Sync & Optimizer");
   console.log("==========================================");
 
-  // 1. Scan orginl/ folder and root
-  const { data: orginlFiles } = await supabase.storage.from(BUCKET).list('orginl', { limit: 100 });
-  const { data: rootFiles } = await supabase.storage.from(BUCKET).list('', { limit: 100 });
+  const forceRecreate = process.argv.includes('--force') || process.argv.includes('-f');
+  if (forceRecreate) {
+    console.log("⚡ Force mode enabled: Re-generating all WebP thumbnails.\n");
+  }
 
-  const targetFiles = new Set();
+  // 1. Fetch existing WebP thumbnails in template/ folder
+  const templateFiles = await listAllBucketFiles('template');
+  const existingWebpSet = new Set(
+    templateFiles
+      .filter(f => !f.name.startsWith('.') && f.name.endsWith('.webp'))
+      .map(f => f.name.toLowerCase())
+  );
+  console.log(`Found ${existingWebpSet.size} existing WebP thumbnails in template/.\n`);
+
+  // 2. Scan orginl/ folder and root using pagination
+  const orginlFiles = await listAllBucketFiles('orginl');
+  const rootFiles = await listAllBucketFiles('');
+
+  const targetFilesMap = new Map();
 
   if (orginlFiles && orginlFiles.length > 0) {
     orginlFiles.forEach(f => {
-      if (!f.name.startsWith('.')) targetFiles.add({ name: f.name, path: `orginl/${f.name}` });
+      if (!f.name.startsWith('.')) {
+        targetFilesMap.set(f.name, { name: f.name, path: `orginl/${f.name}` });
+      }
     });
   }
 
   if (rootFiles && rootFiles.length > 0) {
     rootFiles.forEach(f => {
       if (!f.name.startsWith('.') && f.name.includes('.')) {
-        targetFiles.add({ name: f.name, path: f.name });
+        if (!targetFilesMap.has(f.name)) {
+          targetFilesMap.set(f.name, { name: f.name, path: f.name });
+        }
       }
     });
   }
 
   // Fallback to default list if RLS restricts list()
-  if (targetFiles.size === 0) {
+  if (targetFilesMap.size === 0) {
     DEFAULT_IMAGES.forEach(filename => {
-      targetFiles.add({ name: filename, path: filename });
+      targetFilesMap.set(filename, { name: filename, path: filename });
     });
   }
 
-  console.log(`Found ${targetFiles.size} original images to process.\n`);
+  const targetFiles = Array.from(targetFilesMap.values());
+  console.log(`Found ${targetFiles.length} total original images in bucket.\n`);
 
   let successCount = 0;
+  let skippedCount = 0;
   let errorCount = 0;
 
   for (const item of targetFiles) {
@@ -94,6 +141,14 @@ async function runSync() {
     const orgPath = item.path;
     const targetOrgPath = `orginl/${filename}`;
     const targetTempPath = `template/${baseName}.webp`;
+    const webpFilename = `${baseName}.webp`;
+
+    // Skip if WebP already exists and not in force mode
+    if (!forceRecreate && existingWebpSet.has(webpFilename.toLowerCase())) {
+      console.log(`⏭ Skipped: ${filename} (template/${webpFilename} already exists)`);
+      skippedCount++;
+      continue;
+    }
 
     console.log(`▶ Processing: ${filename}`);
 
@@ -160,7 +215,7 @@ async function runSync() {
   }
 
   console.log("\n==========================================");
-  console.log(`Finished: ${successCount} successful, ${errorCount} errors/restricted`);
+  console.log(`Finished: ${successCount} processed, ${skippedCount} skipped, ${errorCount} errors/restricted`);
   console.log("==========================================");
 }
 

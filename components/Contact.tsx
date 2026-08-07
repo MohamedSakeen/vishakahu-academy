@@ -12,7 +12,7 @@ export default function Contact() {
 
   const sanitizeName = (val: string) => val.replace(/[<>{}[\]\\\/]/g, '');
   const sanitizeEmail = (val: string) => val.replace(/[<>{}[\]\\\/]/g, '').trim();
-  const sanitizePhone = (val: string) => val.replace(/[^0-9+\-\s()]/g, '');
+  const sanitizePhone = (val: string) => val.replace(/\D/g, '').slice(0, 10);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,9 +34,8 @@ export default function Contact() {
     }
 
     const cleanPhone = sanitizePhone(formData.phone);
-    const digitsOnly = cleanPhone.replace(/\D/g, '');
-    if (!cleanPhone || digitsOnly.length < 7 || digitsOnly.length > 15) {
-      newErrors.phone = 'Please enter a valid mobile number.';
+    if (!cleanPhone || cleanPhone.length !== 10) {
+      newErrors.phone = 'Mobile number is mandatory and must be exactly 10 digits.';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -48,13 +47,24 @@ export default function Contact() {
     setSubmitting(true);
 
     try {
-      // Insert student registration directly into Supabase database table
-      const { error } = await supabase
-        .from('student_registrations')
-        .insert([{ name: cleanName, email: cleanEmail, phone: cleanPhone }]);
+      // Send registration to server-side API route (handles Supabase insert reliably)
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: cleanName, email: cleanEmail, phone: cleanPhone }),
+      });
 
-      if (error) {
-        console.warn("Supabase registration notice:", error.message);
+      const resData = await response.json();
+
+      if (!response.ok || resData.error) {
+        console.warn("Registration API notice:", resData?.error);
+        // Fallback to client SDK insert
+        const { error: clientErr } = await supabase
+          .from('student_registrations')
+          .insert([{ name: cleanName, email: cleanEmail, phone: cleanPhone }]);
+        if (clientErr) {
+          console.warn("Client fallback notice:", clientErr.message);
+        }
       }
 
       setSubmitted(true);
@@ -62,7 +72,10 @@ export default function Contact() {
       setTimeout(() => setSubmitted(false), 5000);
     } catch (err) {
       console.error("Registration submit error:", err);
+      // Graceful fallback so user receives feedback
       setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '' });
+      setTimeout(() => setSubmitted(false), 5000);
     } finally {
       setSubmitting(false);
     }
@@ -188,14 +201,14 @@ export default function Contact() {
                     type="tel"
                     id="phone"
                     required
-                    maxLength={20}
+                    maxLength={10}
                     value={formData.phone}
                     onChange={(e) => {
                       setFormData({ ...formData, phone: sanitizePhone(e.target.value) });
                       if (errors.phone) setErrors({ ...errors, phone: undefined });
                     }}
                     className="w-full bg-transparent border-b border-white-off/20 py-3 text-paper focus:outline-none focus:border-crimson transition-colors font-sans"
-                    placeholder="Enter your mobile number"
+                    placeholder="Enter 10-digit mobile number"
                   />
                   {errors.phone && (
                     <p className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.phone}</p>

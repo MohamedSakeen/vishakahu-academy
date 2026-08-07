@@ -1,12 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-const getEnvVar = (key: string) => {
-  const raw = process.env[key] || '';
-  return raw.trim().replace(/^["']|["']$/g, '');
-};
-
-const supabaseUrl = getEnvVar('NEXT_PUBLIC_SUPABASE_URL');
-const supabaseAnonKey = getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim().replace(/^["']|["']$/g, '');
+const supabaseAnonKey = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '').trim().replace(/^["']|["']$/g, '');
 
 export const supabase = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
