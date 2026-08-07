@@ -34,17 +34,17 @@ export default function Gallery() {
   }, []);
 
   return (
-    <section id="gallery" className="py-32 relative bg-ink">
+    <section id="gallery" className="py-16 md:py-32 relative bg-ink">
       <div className="absolute top-10 right-10 text-[200px] font-jp opacity-[0.02] kanji-watermark pointer-events-none">
         栄
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-10 md:mb-20"
         >
           <span className="text-gold font-serif text-sm tracking-[0.3em] uppercase block mb-4">
             Legacy
@@ -64,7 +64,7 @@ export default function Gallery() {
             Loading Academy Photos...
           </div>
         ) : previewItems.length > 0 ? (
-          <div className="columns-1 sm:columns-2 lg:columns-4 gap-4 space-y-4">
+          <div className="columns-2 sm:columns-2 lg:columns-4 gap-2.5 sm:gap-4 space-y-2.5 sm:space-y-4">
             {previewItems.map((item, index) => (
               <motion.div
                 key={item.id}
@@ -72,7 +72,7 @@ export default function Gallery() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="relative overflow-hidden group bg-white-off/5 break-inside-avoid w-full mb-4 border border-white/5 hover:border-gold/40 transition-all duration-300 rounded-sm"
+                className="relative overflow-hidden group bg-white-off/5 break-inside-avoid w-full mb-2.5 sm:mb-4 border border-white/5 hover:border-gold/40 transition-all duration-300 rounded-sm"
               >
                 <Link href="/gallery">
                   <div className="w-full relative overflow-hidden">

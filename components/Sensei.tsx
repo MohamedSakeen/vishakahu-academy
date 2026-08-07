@@ -6,7 +6,7 @@ import Vishnu from '../public/masters/Vishnu_sensei.jpeg';
 
 export default function Sensei() {
   return (
-    <section id="sensei" className="py-32 relative bg-ink">
+    <section id="sensei" className="py-16 md:py-32 relative bg-ink">
       <div className="absolute top-10 right-10 text-[200px] font-jp opacity-[0.02] kanji-watermark pointer-events-none">
         師
       </div>
@@ -16,7 +16,7 @@ export default function Sensei() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          className="text-center mb-12 md:mb-24"
         >
           <span className="text-gold font-serif text-sm tracking-[0.3em] uppercase block mb-4">
             Leadership
@@ -31,7 +31,7 @@ export default function Sensei() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Sensei Profile Content */}
           <div className="lg:col-span-7 order-2 lg:order-1">
             <motion.div 
@@ -127,14 +127,14 @@ export default function Sensei() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="relative aspect-[3/4] w-full max-w-md mx-auto transition-all duration-700 overflow-hidden rounded border border-white-off/10"
+              className="relative aspect-[3/4] w-48 sm:w-64 lg:w-full max-w-md mx-auto transition-all duration-700 overflow-hidden rounded-xl lg:rounded border border-white-off/10 shadow-2xl"
             >
               <Image 
                 src={Vishnu}
                 alt="Kyoshi Vishnuwarthan"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 400px"
+                sizes="(max-width: 768px) 256px, 400px"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent z-10 pointer-events-none" />

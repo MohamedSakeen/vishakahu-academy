@@ -109,7 +109,7 @@ export default function GalleryPage() {
         ) : items.length > 0 ? (
           <motion.div 
             layout
-            className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4"
+            className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 gap-2.5 sm:gap-4 space-y-2.5 sm:space-y-4"
           >
             <AnimatePresence mode="popLayout">
               {items.map((item, idx) => (
@@ -125,7 +125,7 @@ export default function GalleryPage() {
                     setSelectedImageIndex(idx);
                   }}
                   onMouseEnter={() => handlePreloadOriginal(item.src)}
-                  className="group relative overflow-hidden bg-white-off/5 break-inside-avoid w-full mb-4 cursor-pointer border border-white/5 hover:border-gold/40 transition-colors duration-300 rounded-sm"
+                  className="group relative overflow-hidden bg-white-off/5 break-inside-avoid w-full mb-2.5 sm:mb-4 cursor-pointer border border-white/5 hover:border-gold/40 transition-colors duration-300 rounded-sm"
                 >
                   <img
                     src={item.thumbnailSrc || item.src}

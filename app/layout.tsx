@@ -67,9 +67,45 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsActivityLocation',
+  'name': 'Vishakahu Academy',
+  'alternateName': 'Vishakahu Isshinryu Karate Dojo',
+  'description': 'Premier Isshinryu Karate Dojo led by Kyoshi Vishnuwarthan. Combining traditional discipline, physical fitness, weapon training (Kobudo), and practical self-defense.',
+  'url': defaultUrl,
+  'telephone': '+91-98400-00000',
+  'address': {
+    '@type': 'PostalAddress',
+    'addressLocality': 'Tirunelveli',
+    'addressRegion': 'Tamil Nadu',
+    'addressCountry': 'IN'
+  },
+  'geo': {
+    '@type': 'GeoCoordinates',
+    'latitude': 8.7139,
+    'longitude': 77.7567
+  },
+  'priceRange': '$$',
+  'openingHoursSpecification': [
+    {
+      '@type': 'OpeningHoursSpecification',
+      'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      'opens': '06:00',
+      'closes': '20:00'
+    }
+  ]
+};
+
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${cinzel.variable} ${notoSerifJP.variable} ${notoSans.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body suppressHydrationWarning className="bg-ink text-paper font-sans antialiased">
         {children}
       </body>

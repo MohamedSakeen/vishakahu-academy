@@ -21,7 +21,7 @@ const MASTERS_DATA = [
   },
   {
     nameEN: 'Kichiro Shimabuku',
-    era: 'b. circa 1940s',
+    era: '1939 - Present',
     title: 'Kancho · IWKA President',
     rank: '10th Dan · Hanshi',
     kanji: '継',
@@ -44,11 +44,11 @@ const MASTERS_DATA = [
   {
     nameEN: 'Shihan Hussaini',
     era: 'Active 20th–21st century',
-    title: 'Shihan · India Pioneer',
-    rank: 'Shihan',
+    title: 'Hanshi · India Pioneer',
+    rank: '10th Dan · Hanshi',
     kanji: '道',
-    accent: '#C0392B',
-    accentRGB: '192,57,43',
+    accent: '#F5C842',
+    accentRGB: '245,200,66',
     bio: 'Shihan Hussaini is the founding pioneer who introduced authentic Isshinryu to India, who also known as Father of Isshinyu Karate India. Trained more than 5000 students across India ',
     image: ShihanHussainiImg.src  
   },
@@ -111,7 +111,7 @@ export default function Masters() {
         師
       </div>
 
-      <header className="flex-shrink-0 px-8 lg:px-16 mb-8 lg:mb-12 relative z-10 text-center xl:text-left">
+      <header className="flex-shrink-0 px-4 sm:px-8 lg:px-16 mb-6 lg:mb-12 relative z-10 text-center xl:text-left">
         <span className="font-jp text-[0.6rem] text-crimson tracking-[4px] uppercase block mb-3">
           The Lineage · 継承
         </span>
@@ -123,7 +123,7 @@ export default function Masters() {
         </p>
       </header>
 
-      <div className="flex-1 min-h-0 w-full px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 lg:gap-4 overflow-x-hidden overflow-y-auto xl:overflow-hidden">
+      <div className="flex-1 min-h-0 w-full px-4 sm:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5 lg:gap-4 overflow-x-hidden overflow-y-auto xl:overflow-hidden">
         
         {MASTERS_DATA.map((master, idx) => {
           const isActive = activeIdx === idx;
@@ -132,13 +132,13 @@ export default function Masters() {
           return (
             <div 
               key={idx}
-              className={`master-card group relative cursor-pointer border border-white/[0.06] bg-white/[0.02] flex flex-col h-[55vh] md:h-auto min-h-[400px] xl:min-h-0 xl:h-full transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform ${isDimmed ? 'dimmed' : ''} ${isActive ? 'h-[60vh] xl:h-full z-10' : ''}`}
+              className={`master-card group relative cursor-pointer border border-white/[0.08] bg-white/[0.02] flex flex-row md:flex-col p-3 md:p-0 gap-3.5 md:gap-0 h-auto md:h-auto min-h-0 md:min-h-[400px] xl:min-h-0 xl:h-full rounded-xl md:rounded-none transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform ${isDimmed ? 'dimmed' : ''} ${isActive ? 'h-auto xl:h-full z-10' : ''}`}
               style={{ 
                 transitionDelay: isVisible ? `${idx * 0.12}s` : '0s',
                 ...(isActive ? {
-                  transform: 'translateY(-6px) scale(1.01)',
-                  borderColor: 'rgba(212,160,23,0.35)',
-                  boxShadow: `0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(${master.accentRGB}, 0.2)`,
+                  transform: 'translateY(-2px) md:translateY(-6px) scale(1.01)',
+                  borderColor: 'rgba(212,160,23,0.45)',
+                  boxShadow: `0 10px 30px rgba(0,0,0,0.6), 0 0 25px rgba(${master.accentRGB}, 0.25)`,
                   zIndex: 10
                 } : {})
               }}
@@ -148,7 +148,7 @@ export default function Masters() {
             >
               
               <div 
-                className="absolute top-0 left-0 h-[3px] bg-gradient-to-r transition-all duration-1000 ease-out z-20"
+                className="absolute top-0 left-0 h-[3px] bg-gradient-to-r transition-all duration-1000 ease-out z-20 rounded-t-xl md:rounded-none"
                 style={{
                   width: isVisible ? '100%' : '0%',
                   transitionDelay: `${(idx * 0.12) + 0.3}s`,
@@ -156,7 +156,8 @@ export default function Masters() {
                 }} 
               />
 
-              <div className="flex-1 relative overflow-hidden pointer-events-none w-full h-full">
+              {/* Master Image */}
+              <div className="w-24 sm:w-32 md:w-full shrink-0 md:shrink md:flex-1 relative overflow-hidden rounded-lg md:rounded-none pointer-events-none aspect-[3/4] md:aspect-auto md:h-full border border-white/10 md:border-none">
                 {master.image ? (
                   <img
                     src={master.image}
@@ -166,10 +167,30 @@ export default function Masters() {
                   />
                 ) : null}
 
-                <div className="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-[#060305] via-[#060305]/40 to-transparent z-10 pointer-events-none" />
+                <div className="hidden md:block absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-[#060305] via-[#060305]/40 to-transparent z-10 pointer-events-none" />
               </div>
 
-              <div className={`absolute bottom-5 left-0 w-full text-center z-10 transition-all duration-300 ease-out group-hover:-translate-y-2 ${isActive ? 'opacity-0' : 'opacity-100'}`}>
+              {/* Mobile Details (Visible only on mobile screens < md) */}
+              <div className="flex-1 flex flex-col justify-center md:hidden min-w-0 pr-1 z-10">
+                <h3 className="font-serif text-sm sm:text-base text-white tracking-wider uppercase font-semibold leading-tight mb-1">
+                  {master.nameEN}
+                </h3>
+                
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[0.62rem] sm:text-[0.68rem] mb-1.5">
+                  <span className="font-serif text-gold opacity-90">{master.era}</span>
+                  <span className="text-white/30">•</span>
+                  <span className="font-jp uppercase tracking-wider" style={{ color: master.accent }}>{master.rank}</span>
+                </div>
+                
+                <div className="w-8 h-[1px] mb-2 bg-gradient-to-r from-crimson to-gold" />
+                
+                <p className="font-sans text-[0.68rem] sm:text-[0.74rem] text-white/75 leading-[1.5] line-clamp-4 sm:line-clamp-none">
+                  {master.bio}
+                </p>
+              </div>
+
+              {/* Desktop Title Bar (Visible only on desktop md and up) */}
+              <div className={`hidden md:block absolute bottom-5 left-0 w-full text-center z-10 transition-all duration-300 ease-out group-hover:-translate-y-2 ${isActive ? 'opacity-0' : 'opacity-100'}`}>
                 <h3 className="font-serif text-[0.85rem] text-white tracking-[2px] uppercase">
                   {master.nameEN}
                 </h3>
@@ -178,7 +199,8 @@ export default function Masters() {
                 </p>
               </div>
 
-              <div className="absolute inset-0 overflow-hidden pointer-events-none z-20 rounded-[inherit]">
+              {/* Desktop Hover Reveal Drawer (Visible only on desktop md and up) */}
+              <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none z-20 rounded-[inherit]">
                 <div 
                   className={`master-reveal absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#060305] via-[#060305]/95 to-transparent px-4 pb-5 pt-16 transform transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] backdrop-blur-[2px] xl:group-hover:translate-y-0 flex flex-col justify-end pointer-events-auto ${isActive ? 'translate-y-0' : 'translate-y-full'}`}
                 >
