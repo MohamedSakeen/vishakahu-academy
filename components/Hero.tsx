@@ -12,7 +12,7 @@ export default function Hero() {
     
     // Generate Kanji Rain
     const kanjiChars = ['一','心','流','空','手','道'];
-    const drops = Array.from({ length: 15 }).map((_, i) => ({
+    const drops = Array.from({ length: 40 }).map((_, i) => ({
       id: i,
       text: kanjiChars[Math.floor(Math.random() * kanjiChars.length)],
       left: `${Math.random() * 100}%`,
@@ -24,11 +24,6 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden pt-20">
-      {/* Background Graphic */}
-      {/* <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-ink z-10" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(192,57,43,0.2)_0%,transparent_70%)] border border-dashed border-gold/40 z-20 pointer-events-none" />
-      </div> */}
 
       {/* Kanji Rain */}
       {mounted && (
