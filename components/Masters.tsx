@@ -17,7 +17,8 @@ const MASTERS_DATA = [
     accent: '#C0392B',
     accentRGB: '192,57,43',
     bio: 'Born in 1908 in Okinawa, Shimabuku synthesised Shorin-ryu, Goju-ryu and Kobudo into one art. On January 15, 1956, he named it "Isshinryu" — One Heart Way. He passed away May 30, 1975. His legacy spans the globe.',
-    image: TatsoShimabukuImg.src
+    image: TatsoShimabukuImg.src,
+    alt: 'Tatsuo Shimabuku - Grand Founder of Isshinryu Karate'
   },
   {
     nameEN: 'Kichiro Shimabuku',
@@ -28,7 +29,8 @@ const MASTERS_DATA = [
     accent: '#D4A017',
     accentRGB: '212,160,23',
     bio: 'Eldest son of Tatsuo Shimabuku, Kichiro inherited the headship of Isshinryu upon his father\'s retirement. As President of the IWKA, he has sustained the authentic lineage and promoted the art globally for over 50 years.',
-    image: KichiroShimabukuImg.src
+    image: KichiroShimabukuImg.src,
+    alt: 'Kichiro Shimabuku - IWKA President and 10th Dan Hanshi'
   },
   {
     nameEN: 'Angi Uezu',
@@ -39,7 +41,8 @@ const MASTERS_DATA = [
     accent: '#F5C842',
     accentRGB: '245,200,66',
     bio: 'Son-in-law of Tatsuo Shimabuku, Uezu became one of Isshinryu\'s greatest ambassadors. He travelled the world representing the art, founded the O.I.K.K.A. in 1987, and was universally mourned upon his passing in 2024.',
-    image: AngiUezuImg.src
+    image: AngiUezuImg.src,
+    alt: 'Angi Uezu - OIKKA Founder and 10th Dan Hanshi'
   },
   {
     nameEN: 'Shihan Hussaini',
@@ -50,7 +53,8 @@ const MASTERS_DATA = [
     accent: '#F5C842',
     accentRGB: '245,200,66',
     bio: 'Shihan Hussaini is the founding pioneer who introduced authentic Isshinryu to India, who also known as Father of Isshinyu Karate India. Trained more than 100000+ students across India ',
-    image: ShihanHussainiImg.src  
+    image: ShihanHussainiImg.src,
+    alt: 'Shihan Hussaini - Pioneer and Father of Isshinryu Karate India'
   },
   {
     nameEN: 'Hanshi Sella Pandiyan',
@@ -61,7 +65,8 @@ const MASTERS_DATA = [
     accent: '#D4A017',
     accentRGB: '212,160,23',
     bio: 'Current Head of Isshinryu Karate India, Hanshi Sella Pandiyan has built upon the legacy of Shihan Hussaini to grow the art. Under his national leadership, hundreds carry the One Heart Way forward.',
-    image: Sellapandiyan.src
+    image: Sellapandiyan.src,
+    alt: 'Hanshi Sella Pandiyan - Head of Isshinryu Karate India'
   }
 ];
 
@@ -157,7 +162,7 @@ export default function Masters() {
                 {master.image ? (
                   <img
                     src={master.image}
-                    alt={master.nameEN}
+                    alt={master.alt || master.nameEN}
                     loading="lazy"
                     className="w-full h-full object-cover object-center"
                   />

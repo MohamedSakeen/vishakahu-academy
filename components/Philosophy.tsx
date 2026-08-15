@@ -112,7 +112,7 @@ export default function Philosophy() {
         {/* Quote Card Container */}
         <div className="relative min-h-[260px] md:min-h-[220px] flex flex-col justify-center items-center text-center">
           
-          <Quote className="w-10 h-10 md:w-14 md:h-14 text-gold/30 mb-4 md:mb-6 select-none" />
+          <Quote className="w-10 h-10 md:w-14 md:h-14 text-gold/30 mb-4 md:mb-6 select-none" aria-hidden="true" />
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -123,9 +123,9 @@ export default function Philosophy() {
               exit="exit"
               className="w-full flex flex-col items-center"
             >
-              <h3 className="text-xl md:text-3xl lg:text-4xl font-serif text-white-off leading-relaxed md:leading-relaxed mb-8 max-w-3xl px-2">
-                "{currentPhilosophy.quote}"
-              </h3>
+              <blockquote className="text-xl md:text-3xl lg:text-4xl font-serif text-white-off leading-relaxed md:leading-relaxed mb-8 max-w-3xl px-2">
+                &ldquo;{currentPhilosophy.quote}&rdquo;
+              </blockquote>
 
               <div className="flex flex-col items-center">
                 <div 
@@ -133,9 +133,9 @@ export default function Philosophy() {
                   style={{ backgroundColor: currentPhilosophy.accent }}
                 />
                 
-                <h4 className="text-white font-serif tracking-widest text-lg md:text-xl uppercase font-semibold">
+                <h3 className="text-white font-serif tracking-widest text-lg md:text-xl uppercase font-semibold">
                   {currentPhilosophy.author}
-                </h4>
+                </h3>
                 
                 <p className="text-gold/80 font-sans text-xs md:text-sm tracking-wider mt-1 uppercase">
                   {currentPhilosophy.title}
@@ -150,6 +150,3 @@ export default function Philosophy() {
     </section>
   );
 }
-
-
-

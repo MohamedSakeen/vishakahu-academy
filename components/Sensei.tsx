@@ -76,7 +76,7 @@ export default function Sensei() {
               </div>
 
               <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-white-off/10">
-                <h4 className="text-paper font-serif tracking-widest mb-4 sm:mb-6 uppercase text-xs sm:text-sm">Assistant Instructors</h4>
+                <h3 className="text-paper font-serif tracking-widest mb-4 sm:mb-6 uppercase text-xs sm:text-sm">Assistant Instructors</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-6">
                   {[
                     {
@@ -113,7 +113,7 @@ export default function Sensei() {
                     <div key={idx} className={`p-3.5 sm:p-6 bg-white-off/[0.02] border border-white-off/10 flex flex-col justify-between rounded-lg sm:rounded-none min-h-[110px] sm:min-h-[140px] ${idx === 4 ? 'col-span-2' : ''}`}>
                       <div>
                         <div className={`w-6 sm:w-8 h-[2px] ${instructor.lineClass} mb-2 sm:mb-4`} />
-                        <h5 className="text-paper font-serif text-sm sm:text-lg font-semibold mb-0.5 sm:mb-1 leading-snug">{instructor.name}</h5>
+                        <h4 className="text-paper font-serif text-sm sm:text-lg font-semibold mb-0.5 sm:mb-1 leading-snug">{instructor.name}</h4>
                         <div className="text-gold text-[0.62rem] sm:text-xs tracking-wider uppercase mb-1">{instructor.rank}</div>
                       </div>
                       <div className="text-white-off/50 text-[0.58rem] sm:text-[0.65rem] tracking-wider uppercase pt-2 sm:pt-4 border-t border-white-off/5 sm:border-none">
@@ -139,7 +139,7 @@ export default function Sensei() {
             <div className="relative aspect-[3/4] w-48 sm:w-64 lg:w-full max-w-md mx-auto transition-all duration-700 overflow-hidden rounded-xl lg:rounded border border-white-off/10 shadow-2xl">
               <Image
                 src={Vishnu}
-                alt="Kyoshi Vishnu"
+                alt="Kyoshi Vishnu - 7th Dan IIWKA, Founder and Chief Instructor of Vishakahu Academy"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 256px, 400px"

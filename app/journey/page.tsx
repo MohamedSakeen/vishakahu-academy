@@ -8,6 +8,10 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   title: 'Belt Journey | Vishakahu Academy',
   description: 'Explore the belt progression system at Vishakahu Academy. From White Belt to Shodan, understand the path of discipline and the meaning behind each rank.',
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function JourneyPage() {

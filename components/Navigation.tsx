@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
-
 import Link from 'next/link';
+import { trackEnrollClick } from '@/lib/analytics';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
@@ -33,14 +33,11 @@ export default function Navigation() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 group relative z-50">
-          {/* <div className="w-10 h-10 rounded-full bg-crimson flex flex-col items-center justify-center text-xs font-jp font-bold text-paper border-2 border-gold shadow-[0_0_15px_rgba(212,160,23,0.3)] transition-transform group-hover:scale-105">
-             空手
-          </div> */}
+        <Link href="/" className="flex items-center gap-3 group relative z-50" aria-label="Vishakahu Academy Home">
           <div className="flex flex-col">
-            <h1 className="font-serif text-lg tracking-widest text-paper uppercase group-hover:text-gold transition-colors">
+            <span className="font-serif text-lg tracking-widest text-paper uppercase group-hover:text-gold transition-colors">
               Vishakahu
-            </h1>
+            </span>
             <span className="text-[10px] tracking-[0.25em] text-white-off/60 uppercase">
               Academy
             </span>
@@ -48,7 +45,7 @@ export default function Navigation() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-8 items-center">
+        <nav className="hidden md:flex gap-8 items-center" aria-label="Main Navigation">
           {NAV_LINKS.map((link) => (
             <Link 
               key={link.label}
@@ -61,6 +58,7 @@ export default function Navigation() {
           ))}
           <Link 
             href="/#enroll" 
+            onClick={() => trackEnrollClick('navigation_desktop')}
             className="px-6 py-2 bg-crimson text-white hover:bg-deep-red font-serif tracking-[0.2em] font-bold text-xs uppercase transition-colors interactive clip-elegant"
           >
             Enroll Now
@@ -71,7 +69,8 @@ export default function Navigation() {
         <button 
           className="md:hidden text-paper relative z-50 p-2 interactive"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle Menu"
+          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -98,7 +97,10 @@ export default function Navigation() {
               <Link 
                 href="/#enroll" 
                 className="w-full text-center px-6 py-4 bg-crimson text-white font-serif tracking-[0.2em] font-bold text-xs uppercase mt-4 clip-elegant"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  trackEnrollClick('navigation_mobile');
+                  setMobileMenuOpen(false);
+                }}
               >
                 Enroll Now
               </Link>

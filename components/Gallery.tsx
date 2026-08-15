@@ -74,11 +74,11 @@ export default function Gallery() {
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 className="relative overflow-hidden group bg-white-off/5 break-inside-avoid w-full mb-2.5 sm:mb-4 border border-white/5 hover:border-gold/40 transition-all duration-300 rounded-sm"
               >
-                <Link href="/gallery">
+                <Link href="/gallery" aria-label={`View ${item.title || "Academy Photograph"} in Gallery`}>
                   <div className="w-full relative overflow-hidden">
                     <img 
                       src={item.thumbnailSrc || item.src}
-                      alt={item.title || "Academy Photo"}
+                      alt={item.title ? `Vishakahu Academy - ${item.title}` : "Vishakahu Academy martial arts tournament and training moment"}
                       loading="lazy"
                       decoding="async"
                       className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"

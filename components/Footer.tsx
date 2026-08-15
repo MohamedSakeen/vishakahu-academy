@@ -1,6 +1,7 @@
 'use client';
 
 import { Instagram, Facebook, Youtube, Phone, MessageSquare } from 'lucide-react';
+import { trackWhatsAppClick, trackPhoneClick, trackContactClick } from '@/lib/analytics';
 
 export default function Footer() {
   return (
@@ -12,9 +13,9 @@ export default function Footer() {
           <div className="col-span-1">
             <div className="flex items-center gap-3 mb-6">
               <div className="flex flex-col">
-                <h2 className="font-serif text-xl tracking-widest text-paper uppercase">
+                <span className="font-serif text-xl tracking-widest text-paper uppercase">
                   Vishakahu
-                </h2>
+                </span>
                 <span className="text-[10px] tracking-[0.25em] text-white-off/60 uppercase">
                   Academy
                 </span>
@@ -28,20 +29,20 @@ export default function Footer() {
             {/* Quick Social Buttons */}
             <div className="flex items-center gap-3">
               <a
-                href="https://www.instagram.com/vishakahu_academy?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                href="https://www.instagram.com/vishakahu_academy"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram"
+                aria-label="Visit Vishakahu Academy on Instagram"
                 className="w-10 h-10 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
               >
                 <Instagram className="w-4 h-4" />
               </a>
 
               <a
-                href="https://www.facebook.com/profile.php?id=61558976488887&ref=NONE_xav_ig_profile_page_web#"
+                href="https://www.facebook.com/profile.php?id=61558976488887"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Facebook"
+                aria-label="Visit Vishakahu Academy on Facebook"
                 className="w-10 h-10 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
               >
                 <Facebook className="w-4 h-4" />
@@ -51,7 +52,7 @@ export default function Footer() {
                 href="https://www.youtube.com/@MartialArtsAcademy2023"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="YouTube"
+                aria-label="Visit Vishakahu Academy on YouTube"
                 className="w-10 h-10 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
               >
                 <Youtube className="w-4 h-4" />
@@ -61,7 +62,8 @@ export default function Footer() {
                 href="https://wa.me/919629368936"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="WhatsApp"
+                onClick={() => trackWhatsAppClick('footer_icon')}
+                aria-label="Chat with Vishakahu Academy on WhatsApp"
                 className="w-10 h-10 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
               >
                 <MessageSquare className="w-4 h-4" />
@@ -71,7 +73,7 @@ export default function Footer() {
 
           {/* Navigation Links */}
           <div>
-            <h4 className="font-serif text-sm tracking-widest uppercase text-gold mb-6 border-b border-white-off/10 pb-4 inline-block">Explore</h4>
+            <h3 className="font-serif text-sm tracking-widest uppercase text-gold mb-6 border-b border-white-off/10 pb-4 inline-block font-semibold">Explore</h3>
             <ul className="space-y-4">
               {['Home', 'Classes', 'Journey', 'Philosophy', 'Sensei', 'Masters'].map(link => (
                 <li key={link}>
@@ -85,17 +87,25 @@ export default function Footer() {
 
           {/* Contact Details */}
           <div>
-            <h4 className="font-serif text-sm tracking-widest uppercase text-gold mb-6 border-b border-white-off/10 pb-4 inline-block">Contact</h4>
+            <h3 className="font-serif text-sm tracking-widest uppercase text-gold mb-6 border-b border-white-off/10 pb-4 inline-block font-semibold">Contact</h3>
             <ul className="space-y-4 font-sans text-sm text-white-off/60">
               <li className="text-paper font-serif font-semibold">Kyoshi Vishnu</li>
               <li>
-                <a href="tel:+919629368936" className="hover:text-gold transition-colors flex items-center gap-2">
+                <a 
+                  href="tel:+919629368936" 
+                  onClick={() => trackPhoneClick('footer')}
+                  className="hover:text-gold transition-colors flex items-center gap-2"
+                >
                   <Phone className="w-3.5 h-3.5 text-gold shrink-0" />
                   +91 96293 68936
                 </a>
               </li>
               <li>
-                <a href="mailto:vishnu.judovav@gmail.com" className="hover:text-gold transition-colors">
+                <a 
+                  href="mailto:vishnu.judovav@gmail.com" 
+                  onClick={() => trackContactClick('email', 'footer')}
+                  className="hover:text-gold transition-colors"
+                >
                   vishnu.judovav@gmail.com
                 </a>
               </li>
@@ -105,11 +115,11 @@ export default function Footer() {
 
           {/* Social Media Column */}
           <div>
-            <h4 className="font-serif text-sm tracking-widest uppercase text-gold mb-6 border-b border-white-off/10 pb-4 inline-block">Follow Us</h4>
+            <h3 className="font-serif text-sm tracking-widest uppercase text-gold mb-6 border-b border-white-off/10 pb-4 inline-block font-semibold">Follow Us</h3>
             <ul className="space-y-4 font-sans text-sm text-white-off/60">
               <li>
                 <a
-                  href="https://www.instagram.com/vishakahu_academy?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                  href="https://www.instagram.com/vishakahu_academy"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-gold transition-colors flex items-center gap-3 group"
@@ -122,7 +132,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://www.facebook.com/profile.php?id=61558976488887&ref=NONE_xav_ig_profile_page_web#"
+                  href="https://www.facebook.com/profile.php?id=61558976488887"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-gold transition-colors flex items-center gap-3 group"
@@ -151,6 +161,7 @@ export default function Footer() {
                   href="https://wa.me/919629368936"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackWhatsAppClick('footer_list')}
                   className="hover:text-gold transition-colors flex items-center gap-3 group"
                 >
                   <span className="w-8 h-8 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 group-hover:border-gold group-hover:text-gold transition-colors">

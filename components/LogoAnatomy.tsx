@@ -302,7 +302,7 @@ export default function LogoAnatomy() {
                 data-side={ann.side}
                 style={{ '--card-color': ann.color === 'gold' ? '#D4A017' : '#C0392B' } as React.CSSProperties}
               >
-                <p className="la-card-title">{ann.title}</p>
+                <h3 className="la-card-title">{ann.title}</h3>
                 <p className="la-card-desc">{ann.desc}</p>
               </div>
             ))}
@@ -315,7 +315,7 @@ export default function LogoAnatomy() {
           >
             <Image
               src={Vishakahu}
-              alt="Vishakahu Academy Logo"
+              alt="Vishakahu Academy official emblem representing martial arts discipline, philosophy, and master lineage"
               fill
               sizes="(max-width: 768px) 100vw, 400px"
               className="la-logo-svg object-contain"
@@ -333,7 +333,7 @@ export default function LogoAnatomy() {
                 data-side={ann.side}
                 style={{ '--card-color': ann.color === 'gold' ? '#D4A017' : '#C0392B' } as React.CSSProperties}
               >
-                <p className="la-card-title">{ann.title}</p>
+                <h3 className="la-card-title">{ann.title}</h3>
                 <p className="la-card-desc">{ann.desc}</p>
               </div>
             ))}

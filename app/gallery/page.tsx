@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
@@ -22,14 +22,14 @@ export default function GalleryPage() {
 
   useEffect(() => {
     if (galleryCache && galleryCache.length > 0) {
-      setLoading(false);
       return;
     }
 
+    let isSubscribed = true;
     async function fetchGallery() {
       try {
         const res = await fetch('/api/gallery');
-        if (res.ok) {
+        if (res.ok && isSubscribed) {
           const data = await res.json();
           const list = data.items || [];
           galleryCache = list;
@@ -38,10 +38,16 @@ export default function GalleryPage() {
       } catch (err) {
         console.error("Failed to load gallery images:", err);
       } finally {
-        setLoading(false);
+        if (isSubscribed) {
+          setLoading(false);
+        }
       }
     }
     fetchGallery();
+
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   const handlePreloadOriginal = (src: string) => {
@@ -51,17 +57,13 @@ export default function GalleryPage() {
     }
   };
 
-  const handleNextImage = () => {
-    if (selectedImageIndex !== null && items.length > 0) {
-      setSelectedImageIndex((selectedImageIndex + 1) % items.length);
-    }
-  };
+  const handleNextImage = useCallback(() => {
+    setSelectedImageIndex((prev) => (prev !== null && items.length > 0 ? (prev + 1) % items.length : null));
+  }, [items.length]);
 
-  const handlePrevImage = () => {
-    if (selectedImageIndex !== null && items.length > 0) {
-      setSelectedImageIndex((selectedImageIndex - 1 + items.length) % items.length);
-    }
-  };
+  const handlePrevImage = useCallback(() => {
+    setSelectedImageIndex((prev) => (prev !== null && items.length > 0 ? (prev - 1 + items.length) % items.length : null));
+  }, [items.length]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -72,7 +74,7 @@ export default function GalleryPage() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedImageIndex, items.length]);
+  }, [selectedImageIndex, handleNextImage, handlePrevImage]);
 
   return (
     <div className="min-h-screen bg-[#060305] text-white selection:bg-crimson">
@@ -126,10 +128,19 @@ export default function GalleryPage() {
                   }}
                   onMouseEnter={() => handlePreloadOriginal(item.src)}
                   className="group relative overflow-hidden bg-white-off/5 break-inside-avoid w-full mb-2.5 sm:mb-4 cursor-pointer border border-white/5 hover:border-gold/40 transition-colors duration-300 rounded-sm"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View photo ${item.title || idx + 1} full size`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handlePreloadOriginal(item.src);
+                      setSelectedImageIndex(idx);
+                    }
+                  }}
                 >
                   <img
                     src={item.thumbnailSrc || item.src}
-                    alt={item.title || "Academy Photo"}
+                    alt={item.title ? `Vishakahu Academy - ${item.title}` : "Vishakahu Academy tournament and training gallery photograph"}
                     loading="lazy"
                     decoding="async"
                     className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
@@ -159,6 +170,9 @@ export default function GalleryPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Image Lightbox"
             className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col justify-between p-4 md:p-8"
           >
             {/* Top Toolbar */}
@@ -196,7 +210,7 @@ export default function GalleryPage() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
                 src={items[selectedImageIndex].src}
-                alt={items[selectedImageIndex].title || "Academy Photo"}
+                alt={items[selectedImageIndex].title ? `Vishakahu Academy - ${items[selectedImageIndex].title}` : "Vishakahu Academy tournament and training full photograph"}
                 className="max-h-[80vh] max-w-[90vw] w-auto h-auto object-contain shadow-2xl rounded-sm"
               />
 

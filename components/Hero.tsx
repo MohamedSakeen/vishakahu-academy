@@ -1,51 +1,41 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { trackEnrollClick } from '@/lib/analytics';
+
+const KANJI_CHARS = ['一', '心', '流', '空', '手', '道'];
+
+const KANJI_DROPS = Array.from({ length: 40 }).map((_, i) => ({
+  id: i,
+  text: KANJI_CHARS[i % KANJI_CHARS.length],
+  left: `${(i * 13.7) % 100}%`,
+  delay: (i * 0.35) % 5,
+  duration: 5 + ((i * 0.4) % 5),
+}));
 
 export default function Hero() {
-  const [mounted, setMounted] = useState(false);
-  const [kanjiDrops, setKanjiDrops] = useState<Array<{ id: number, text: string, left: string, delay: number, duration: number }>>([]);
-
-  useEffect(() => {
-    setMounted(true);
-    
-    // Generate Kanji Rain
-    const kanjiChars = ['一','心','流','空','手','道'];
-    const drops = Array.from({ length: 40 }).map((_, i) => ({
-      id: i,
-      text: kanjiChars[Math.floor(Math.random() * kanjiChars.length)],
-      left: `${Math.random() * 100}%`,
-      delay: Math.random() * 5,
-      duration: Math.random() * 5 + 5,
-    }));
-    setKanjiDrops(drops);
-  }, []);
-
   return (
     <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden pt-20">
 
       {/* Kanji Rain */}
-      {mounted && (
-        <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none opacity-20">
-          {kanjiDrops.map(drop => (
-            <motion.div
-              key={drop.id}
-              className="absolute top-[-50px] font-jp text-2xl text-gold"
-              style={{ left: drop.left }}
-              animate={{ y: ['0vh', '120vh'] }}
-              transition={{
-                duration: drop.duration,
-                repeat: Infinity,
-                ease: 'linear',
-                delay: drop.delay,
-              }}
-            >
-              {drop.text}
-            </motion.div>
-          ))}
-        </div>
-      )}
+      <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none opacity-20" aria-hidden="true">
+        {KANJI_DROPS.map(drop => (
+          <motion.div
+            key={drop.id}
+            className="absolute top-[-50px] font-jp text-2xl text-gold"
+            style={{ left: drop.left }}
+            animate={{ y: ['0vh', '120vh'] }}
+            transition={{
+              duration: drop.duration,
+              repeat: Infinity,
+              ease: 'linear',
+              delay: drop.delay,
+            }}
+          >
+            {drop.text}
+          </motion.div>
+        ))}
+      </div>
 
       {/* Content */}
       <div className="relative z-30 max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
@@ -58,9 +48,9 @@ export default function Hero() {
           <div className="text-crimson/80 font-jp text-[120px] leading-none select-none tracking-widest absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[-1] opacity-20 blur-sm">
             一心流
           </div>
-          <h2 className="text-gold font-serif text-sm tracking-[0.5em] uppercase mb-4">
+          <span className="text-gold font-serif text-sm tracking-[0.5em] uppercase mb-4 block">
             ヴィシャカフ道場
-          </h2>
+          </span>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white-off uppercase tracking-widest text-shadow-xl mt-4">
             Vishakahu
             <span className="block text-3xl md:text-5xl lg:text-6xl text-paper/80 mt-4 tracking-[0.3em]">
@@ -84,7 +74,11 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="flex flex-col sm:flex-row gap-6"
         >
-          <a href="#enroll" className="px-10 py-4 bg-crimson text-white font-serif tracking-[0.2em] text-xs font-bold uppercase transition-all interactive clip-elegant hover:bg-deep-red">
+          <a 
+            href="#enroll" 
+            onClick={() => trackEnrollClick('hero_cta')}
+            className="px-10 py-4 bg-crimson text-white font-serif tracking-[0.2em] text-xs font-bold uppercase transition-all interactive clip-elegant hover:bg-deep-red"
+          >
             Begin Your Journey
           </a>
           <a href="#classes" className="px-10 py-4 bg-transparent text-gold font-serif tracking-[0.2em] text-xs font-bold uppercase border border-gold/50 transition-all interactive clip-elegant hover:bg-gold/10">

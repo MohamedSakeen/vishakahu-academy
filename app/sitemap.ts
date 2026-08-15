@@ -2,25 +2,14 @@ import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://vishakahu.com';
+  const cleanBase = baseUrl.replace(/\/+$/, '');
 
   return [
     {
-      url: baseUrl,
+      url: `${cleanBase}/`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/gallery`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/journey`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
     },
   ];
 }

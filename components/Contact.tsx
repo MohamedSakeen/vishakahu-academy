@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { trackEnrollClick, trackPhoneClick, trackContactClick } from '@/lib/analytics';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
@@ -46,6 +47,8 @@ export default function Contact() {
     setSubmitting(true);
 
     try {
+      trackEnrollClick('contact_form_submit');
+
       // Send registration to server-side API route (handles Supabase insert reliably)
       const response = await fetch('/api/register', {
         method: 'POST',
@@ -109,20 +112,28 @@ export default function Contact() {
 
             <div className="space-y-8">
               <div>
-                <h4 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Chief Instructor</h4>
+                <h3 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Chief Instructor</h3>
                 <p className="text-paper text-lg font-serif">Kyoshi Vishnu</p>
               </div>
 
               <div>
-                <h4 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Phone</h4>
-                <a href="tel:+919629368936" className="text-paper text-lg hover:text-crimson transition-colors border-b border-transparent hover:border-crimson inline-block">
+                <h3 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Phone</h3>
+                <a 
+                  href="tel:+919629368936" 
+                  onClick={() => trackPhoneClick('contact_section')}
+                  className="text-paper text-lg hover:text-crimson transition-colors border-b border-transparent hover:border-crimson inline-block"
+                >
                   +91 96293 68936
                 </a>
               </div>
 
               <div>
-                <h4 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Email</h4>
-                <a href="mailto:vishnu.judovav@gmail.com" className="text-paper text-lg hover:text-crimson transition-colors border-b border-transparent hover:border-crimson inline-block">
+                <h3 className="text-gold font-serif text-sm uppercase tracking-widest mb-1">Email</h3>
+                <a 
+                  href="mailto:vishnu.judovav@gmail.com" 
+                  onClick={() => trackContactClick('email', 'contact_section')}
+                  className="text-paper text-lg hover:text-crimson transition-colors border-b border-transparent hover:border-crimson inline-block"
+                >
                   vishnu.judovav@gmail.com
                 </a>
               </div>
@@ -151,6 +162,8 @@ export default function Contact() {
                     required
                     maxLength={60}
                     value={formData.name}
+                    aria-invalid={errors.name ? 'true' : 'false'}
+                    aria-describedby={errors.name ? 'name-error' : undefined}
                     onChange={(e) => {
                       setFormData({ ...formData, name: sanitizeName(e.target.value) });
                       if (errors.name) setErrors({ ...errors, name: undefined });
@@ -159,7 +172,7 @@ export default function Contact() {
                     placeholder="Enter your full name"
                   />
                   {errors.name && (
-                    <p className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.name}</p>
+                    <p id="name-error" className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.name}</p>
                   )}
                 </div>
 
@@ -171,6 +184,8 @@ export default function Contact() {
                     required
                     maxLength={100}
                     value={formData.email}
+                    aria-invalid={errors.email ? 'true' : 'false'}
+                    aria-describedby={errors.email ? 'email-error' : undefined}
                     onChange={(e) => {
                       setFormData({ ...formData, email: sanitizeEmail(e.target.value) });
                       if (errors.email) setErrors({ ...errors, email: undefined });
@@ -179,7 +194,7 @@ export default function Contact() {
                     placeholder="Enter your email"
                   />
                   {errors.email && (
-                    <p className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.email}</p>
+                    <p id="email-error" className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.email}</p>
                   )}
                 </div>
 
@@ -191,6 +206,8 @@ export default function Contact() {
                     required
                     maxLength={10}
                     value={formData.phone}
+                    aria-invalid={errors.phone ? 'true' : 'false'}
+                    aria-describedby={errors.phone ? 'phone-error' : undefined}
                     onChange={(e) => {
                       setFormData({ ...formData, phone: sanitizePhone(e.target.value) });
                       if (errors.phone) setErrors({ ...errors, phone: undefined });
@@ -199,7 +216,7 @@ export default function Contact() {
                     placeholder="Enter 10-digit mobile number"
                   />
                   {errors.phone && (
-                    <p className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.phone}</p>
+                    <p id="phone-error" className="text-crimson text-xs mt-1 font-serif tracking-wider">{errors.phone}</p>
                   )}
                 </div>
 
