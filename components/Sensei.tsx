@@ -15,8 +15,8 @@ export default function Sensei() {
           <span className="text-gold font-serif text-sm tracking-[0.3em] uppercase block mb-4">
             Leadership
           </span>
-          <h2 className="text-4xl md:text-5xl font-serif text-paper uppercase tracking-widest">
-            The Masters
+          <h2 className="text-4xl md:text-3xl font-serif text-paper uppercase tracking-widest">
+            The Founder of VishakaHu Academy
           </h2>
           <div className="relative z-20 flex justify-center mt-8 mb-6">
             <div className="w-full max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-crimson to-transparent relative">
@@ -25,15 +25,27 @@ export default function Sensei() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Sensei Profile Content */}
           <div className="lg:col-span-7 order-2 lg:order-1">
             <div>
-              <h3 className="text-3xl font-serif text-paper mb-2">
-                Kyoshi Vishnu
-              </h3>
-              <div className="text-gold font-roboto tracking-[0.1em] mb-8 text-sm">
-                7th Dan - IIWKA, Founder of Vishakahu Academy
+              {/* Header row: Name + 7th Dan line on left, Qualifications on right for mobile */}
+              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 mb-8">
+                <div>
+                  <h3 className="text-3xl font-serif text-paper mb-2">
+                    Kyoshi Vishnu
+                  </h3>
+                  <div className="text-gold font-roboto tracking-[0.1em] text-sm">
+                    7th Dan - IIWKA, Founder of Vishakahu Academy
+                  </div>
+                </div>
+
+                {/* Mobile qualifications (visible on mobile < lg, hidden on lg+) */}
+                <div className="flex lg:hidden flex-col items-end text-right gap-1 text-gold/90 font-sans text-xs sm:text-sm tracking-wider">
+                  <span>1st Dan - Taekwondo</span>
+                  <span>1st Dan - Judo</span>
+                  <span>1st Dan - Choi Kwang Do</span>
+                </div>
               </div>
 
               <div className="space-y-6 text-white-off/70 font-sans leading-relaxed">
@@ -71,7 +83,7 @@ export default function Sensei() {
                       name: 'Sensei Mohamed Sakeen',
                       rank: '2nd Dan - IIWKA',
                       branch: 'Chennai Dojo',
-                      lineClass: 'bg-crimson',
+                      lineClass: 'bg-gold',
                     },
                     {
                       name: 'Sensei Muthu Akash',
@@ -86,19 +98,19 @@ export default function Sensei() {
                       lineClass: 'bg-gold',
                     },
                     {
+                      name: 'Sensei Thasvin Anto',
+                      rank: '2st Dan - IIWKA',
+                      branch: 'Suthamalli Dojo',
+                      lineClass: 'bg-gold',
+                    },
+                    {
                       name: 'Sensei Veeraragavan',
                       rank: '1st Dan - IIWKA',
                       branch: 'Mukkudal Dojo',
                       lineClass: 'bg-gold',
-                    },
-                    {
-                      name: 'Sensei Thasvin Anto',
-                      rank: '1st Dan - IIWKA',
-                      branch: 'Suthamalli Dojo',
-                      lineClass: 'bg-gold',
                     }
                   ].map((instructor, idx) => (
-                    <div key={idx} className="p-3.5 sm:p-6 bg-white-off/[0.02] border border-white-off/10 flex flex-col justify-between rounded-lg sm:rounded-none min-h-[110px] sm:min-h-[140px]">
+                    <div key={idx} className={`p-3.5 sm:p-6 bg-white-off/[0.02] border border-white-off/10 flex flex-col justify-between rounded-lg sm:rounded-none min-h-[110px] sm:min-h-[140px] ${idx === 4 ? 'col-span-2' : ''}`}>
                       <div>
                         <div className={`w-6 sm:w-8 h-[2px] ${instructor.lineClass} mb-2 sm:mb-4`} />
                         <h5 className="text-paper font-serif text-sm sm:text-lg font-semibold mb-0.5 sm:mb-1 leading-snug">{instructor.name}</h5>
@@ -115,8 +127,15 @@ export default function Sensei() {
             </div>
           </div>
 
-          {/* Sensei Image */}
-          <div className="lg:col-span-5 order-1 lg:order-2">
+          {/* Sensei Image & Desktop Qualifications */}
+          <div className="lg:col-span-5 order-1 lg:order-2 flex flex-col items-center lg:items-end">
+            {/* Desktop qualifications (hidden on mobile < lg, visible on lg+) */}
+            <div className="w-full text-gold/90 font-sans text-xs sm:text-sm tracking-wider hidden lg:flex flex-col items-end text-right gap-1 mb-6 max-w-md">
+              <span>1st Dan - Taekwondo</span>
+              <span>1st Dan - Judo</span>
+              <span>1st Dan - Choi Kwang Do</span>
+            </div>
+
             <div className="relative aspect-[3/4] w-48 sm:w-64 lg:w-full max-w-md mx-auto transition-all duration-700 overflow-hidden rounded-xl lg:rounded border border-white-off/10 shadow-2xl">
               <Image
                 src={Vishnu}

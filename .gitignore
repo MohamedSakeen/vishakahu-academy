@@ -40,3 +40,8 @@ yarn-error.log*
 
 # TypeScript
 tsconfig.tsbuildinfo
+
+# Project Memory
+PROJECT_MEMORY.md
+
+file_structure.txt

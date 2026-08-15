@@ -56,7 +56,7 @@ const MASTERS_DATA = [
     nameEN: 'Hanshi Sella Pandiyan',
     era: 'Active present day',
     title: 'Hanshi · India Head',
-    rank: 'Hanshi',
+    rank: '10th Dan · Hanshi',
     kanji: '師',
     accent: '#D4A017',
     accentRGB: '212,160,23',
@@ -85,7 +85,7 @@ export default function Masters() {
   };
 
   return (
-    <section id="masters" ref={sectionRef} className={`w-full bg-[#060305] relative flex flex-col min-h-screen xl:h-screen xl:max-h-screen overflow-hidden pt-12 pb-6 xl:pt-16 xl:pb-8 ${isVisible ? 'section-visible' : ''}`}>
+    <section id="masters" ref={sectionRef} className={`w-full bg-[#060305] relative flex flex-col py-16 md:py-24 lg:py-32 overflow-hidden ${isVisible ? 'section-visible' : ''}`}>
       
       <style suppressHydrationWarning>{`
         #masters .master-card {
@@ -107,24 +107,20 @@ export default function Masters() {
         }
       `}</style>
       
-      <div className="absolute top-10 right-10 text-[20rem] font-jp opacity-[0.02] text-white-off select-none pointer-events-none">
+      <div className="absolute top-10 right-10 text-[24rem] font-jp opacity-[0.02] text-white-off select-none pointer-events-none">
         師
       </div>
 
-      <header className="flex-shrink-0 px-4 sm:px-8 lg:px-16 mb-6 lg:mb-12 relative z-10 text-center xl:text-left">
-        <span className="font-jp text-[0.6rem] text-crimson tracking-[4px] uppercase block mb-3">
+      <header className="w-full max-w-5xl mx-auto mb-10 lg:mb-16 relative z-10 text-center px-4">
+        <span className="font-jp text-[0.65rem] text-crimson tracking-[4px] uppercase block mb-3">
           The Lineage · 継承
         </span>
-        <h2 className="font-serif font-bold text-white uppercase m-0 leading-tight" style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)' }}>
+        <h2 className="font-serif font-bold text-white uppercase m-0 leading-tight" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}>
           Masters of <span className="text-gold">Isshinryu</span>
         </h2>
-        <p className="font-sans text-[0.72rem] text-white/40 tracking-[1px] mt-2">
-          Five pillars of a living tradition — Okinawa to India
-        </p>
       </header>
 
-      <div className="flex-1 min-h-0 w-full px-4 sm:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5 lg:gap-4 overflow-x-hidden overflow-y-auto xl:overflow-hidden">
-        
+      <div className="w-[calc(100%-40px)] sm:w-[calc(100%-80px)] max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">        
         {MASTERS_DATA.map((master, idx) => {
           const isActive = activeIdx === idx;
           const isDimmed = activeIdx !== null && activeIdx !== idx;
@@ -132,11 +128,11 @@ export default function Masters() {
           return (
             <div 
               key={idx}
-              className={`master-card group relative cursor-pointer border border-white/[0.08] bg-white/[0.02] flex flex-row md:flex-col p-3 md:p-0 gap-3.5 md:gap-0 h-auto md:h-auto min-h-0 md:min-h-[400px] xl:min-h-0 xl:h-full rounded-xl md:rounded-none transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform ${isDimmed ? 'dimmed' : ''} ${isActive ? 'h-auto xl:h-full z-10' : ''}`}
+              className={`master-card group relative cursor-pointer border border-white/[0.08] bg-white/[0.02] flex flex-row md:flex-col p-3 md:p-0 gap-3.5 md:gap-0 h-auto md:h-[420px] lg:h-[470px] rounded-xl md:rounded-none transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform ${isDimmed ? 'dimmed' : ''} ${isActive ? 'z-10' : ''}`}
               style={{ 
                 transitionDelay: isVisible ? `${idx * 0.12}s` : '0s',
                 ...(isActive ? {
-                  transform: 'translateY(-2px) md:translateY(-6px) scale(1.01)',
+                  transform: 'translateY(-6px) scale(1.02)',
                   borderColor: 'rgba(212,160,23,0.45)',
                   boxShadow: `0 10px 30px rgba(0,0,0,0.6), 0 0 25px rgba(${master.accentRGB}, 0.25)`,
                   zIndex: 10
@@ -157,13 +153,13 @@ export default function Masters() {
               />
 
               {/* Master Image */}
-              <div className="w-24 sm:w-32 md:w-full shrink-0 md:shrink md:flex-1 relative overflow-hidden rounded-lg md:rounded-none pointer-events-none aspect-[3/4] md:aspect-auto md:h-full border border-white/10 md:border-none">
+              <div className="w-24 sm:w-32 md:w-full shrink-0 md:shrink md:flex-1 relative overflow-hidden rounded-lg md:rounded-none pointer-events-none aspect-[3/4] md:aspect-auto min-h-0 border border-white/10 md:border-none">
                 {master.image ? (
                   <img
                     src={master.image}
                     alt={master.nameEN}
                     loading="lazy"
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover object-center"
                   />
                 ) : null}
 
@@ -190,11 +186,11 @@ export default function Masters() {
               </div>
 
               {/* Desktop Title Bar (Visible only on desktop md and up) */}
-              <div className={`hidden md:block absolute bottom-5 left-0 w-full text-center z-10 transition-all duration-300 ease-out group-hover:-translate-y-2 ${isActive ? 'opacity-0' : 'opacity-100'}`}>
-                <h3 className="font-serif text-[0.85rem] text-white tracking-[2px] uppercase">
+              <div className={`hidden md:block absolute bottom-6 left-0 w-full text-center z-10 transition-all duration-300 ease-out group-hover:-translate-y-2 ${isActive ? 'opacity-0' : 'opacity-100'}`}>
+                <h3 className="font-serif text-[0.9rem] lg:text-[0.95rem] text-white tracking-[2px] uppercase font-semibold">
                   {master.nameEN}
                 </h3>
-                <p className="font-jp text-[0.55rem] tracking-[2px] uppercase mt-1" style={{ color: master.accent }}>
+                <p className="font-jp text-[0.65rem] tracking-[2px] uppercase mt-1" style={{ color: master.accent }}>
                   {master.title}
                 </p>
               </div>
@@ -202,32 +198,32 @@ export default function Masters() {
               {/* Desktop Hover Reveal Drawer (Visible only on desktop md and up) */}
               <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none z-20 rounded-[inherit]">
                 <div 
-                  className={`master-reveal absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#060305] via-[#060305]/95 to-transparent px-4 pb-5 pt-16 transform transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] backdrop-blur-[2px] xl:group-hover:translate-y-0 flex flex-col justify-end pointer-events-auto ${isActive ? 'translate-y-0' : 'translate-y-full'}`}
+                  className={`master-reveal absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#060305] via-[#060305]/95 to-transparent px-5 pb-6 pt-16 transform transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] backdrop-blur-[2px] xl:group-hover:translate-y-0 flex flex-col justify-end pointer-events-auto ${isActive ? 'translate-y-0' : 'translate-y-full'}`}
                 >
                   <div className="absolute top-0 left-0 w-full h-[2px]" style={{ background: master.accent }} />
                   
-                  <h4 className="font-serif text-[1rem] text-white uppercase tracking-wider mb-1 leading-tight">
+                  <h4 className="font-serif text-[1.1rem] text-white uppercase tracking-wider mb-1 leading-tight">
                     {master.nameEN}
                   </h4>
-                  <div className="font-serif text-[0.7rem] text-gold tracking-widest mb-1 opacity-80">
+                  <div className="font-serif text-[0.75rem] text-gold tracking-widest mb-1 opacity-80">
                     {master.era}
                   </div>
-                  <div className="font-jp text-[0.6rem] text-crimson uppercase tracking-widest mb-3">
+                  <div className="font-jp text-[0.65rem] text-crimson uppercase tracking-widest mb-3">
                     {master.rank}
                   </div>
                   
-                  <div className="w-[30px] h-[1px] mb-3 bg-gradient-to-r from-crimson to-gold" />
+                  <div className="w-[35px] h-[1px] mb-3 bg-gradient-to-r from-crimson to-gold" />
                   
-                  <p className="font-sans text-[0.7rem] text-white/75 leading-[1.6]">
+                  <p className="font-sans text-[0.75rem] text-white/75 leading-[1.6]">
                     {master.bio}
                   </p>
                 </div>
               </div>
 
               {idx < MASTERS_DATA.length - 1 && (
-                <div className="hidden xl:flex absolute top-1/2 -right-[5px] w-0 h-0 z-30 pointer-events-none items-center justify-center">
-                  <div className="w-[10px] h-[1px] bg-gold/30 absolute" />
-                  <div className="text-[0.4rem] text-gold absolute" style={{ animation: `shine 2s infinite ${idx * 0.15 + 1}s` }}>◆</div>
+                <div className="hidden lg:flex absolute top-1/2 -right-[13px] w-0 h-0 z-30 pointer-events-none items-center justify-center">
+                  <div className="w-[12px] h-[1px] bg-gold/30 absolute" />
+                  <div className="text-[0.45rem] text-gold absolute" style={{ animation: `shine 2s infinite ${idx * 0.15 + 1}s` }}>◆</div>
                 </div>
               )}
             </div>

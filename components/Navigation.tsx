@@ -10,7 +10,6 @@ const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Classes', href: '/#classes' },
   { label: 'Journey', href: '/journey' },
-  { label: 'Philosophy', href: '/#philosophy' },
   { label: 'Sensei', href: '/#sensei' },
   { label: 'Masters', href: '/#masters' },
 ];

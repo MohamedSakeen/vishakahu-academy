@@ -81,9 +81,11 @@ export default function LogoAnatomy() {
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          width: min(1400px, calc(100% - 160px));
+          margin: 0 auto;
         }
         @media (max-width: 1200px) {
-          .la-canvas { flex-direction: column; padding-bottom: 60px; }
+          .la-canvas { flex-direction: column; padding-bottom: 60px; width: 100%; margin: 0; }
         }
 
         /* ── Logo ── */
