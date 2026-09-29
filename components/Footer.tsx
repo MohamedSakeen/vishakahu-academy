@@ -1,6 +1,7 @@
 'use client';
 
-import { Instagram, Facebook, Youtube, Phone, MessageSquare } from 'lucide-react';
+import { Phone, MessageSquare } from 'lucide-react';
+import { FaInstagram, FaFacebook, FaYoutube, FaWhatsapp } from 'react-icons/fa';
 import { trackWhatsAppClick, trackPhoneClick, trackContactClick } from '@/lib/analytics';
 
 export default function Footer() {
@@ -27,13 +28,13 @@ export default function Footer() {
             </p>
 
             {/* Quick Social Buttons */}
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3 ">
               <a
                 href="https://www.instagram.com/vishakahu_academy"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visit Vishakahu Academy on Instagram"
-                className="w-10 h-10 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
+                className="flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
               >
                 <Instagram className="w-4 h-4" />
               </a>
@@ -43,7 +44,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visit Vishakahu Academy on Facebook"
-                className="w-10 h-10 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
+                className="flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
               >
                 <Facebook className="w-4 h-4" />
               </a>
@@ -53,7 +54,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visit Vishakahu Academy on YouTube"
-                className="w-10 h-10 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
+                className="flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
               >
                 <Youtube className="w-4 h-4" />
               </a>
@@ -64,11 +65,11 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 onClick={() => trackWhatsAppClick('footer_icon')}
                 aria-label="Chat with Vishakahu Academy on WhatsApp"
-                className="w-10 h-10 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
+                className="flex items-center justify-center text-white-off/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all duration-300"
               >
                 <MessageSquare className="w-4 h-4" />
               </a>
-            </div>
+            </div> */}
           </div>
 
           {/* Navigation Links */}
@@ -124,8 +125,8 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-gold transition-colors flex items-center gap-3 group"
                 >
-                  <span className="w-8 h-8 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 group-hover:border-gold group-hover:text-gold transition-colors">
-                    <Instagram className="w-4 h-4" />
+                  <span className="flex items-center justify-center text-white-off/70 group-hover:border-gold group-hover:text-gold transition-colors">
+                    <FaInstagram className="w-6 h-6" />
                   </span>
                   Instagram
                 </a>
@@ -137,8 +138,8 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-gold transition-colors flex items-center gap-3 group"
                 >
-                  <span className="w-8 h-8 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 group-hover:border-gold group-hover:text-gold transition-colors">
-                    <Facebook className="w-4 h-4" />
+                  <span className="flex items-center justify-center text-white-off/70 group-hover:border-gold group-hover:text-gold transition-colors">
+                    <FaFacebook className="w-6 h-6" />
                   </span>
                   Facebook
                 </a>
@@ -150,8 +151,8 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-gold transition-colors flex items-center gap-3 group"
                 >
-                  <span className="w-8 h-8 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 group-hover:border-gold group-hover:text-gold transition-colors">
-                    <Youtube className="w-4 h-4" />
+                  <span className="flex items-center justify-center text-white-off/70 group-hover:border-gold group-hover:text-gold transition-colors">
+                    <FaYoutube className="w-6 h-6" />
                   </span>
                   YouTube
                 </a>
@@ -164,10 +165,10 @@ export default function Footer() {
                   onClick={() => trackWhatsAppClick('footer_list')}
                   className="hover:text-gold transition-colors flex items-center gap-3 group"
                 >
-                  <span className="w-8 h-8 rounded-full border border-white-off/20 flex items-center justify-center text-white-off/70 group-hover:border-gold group-hover:text-gold transition-colors">
-                    <MessageSquare className="w-4 h-4" />
+                  <span className="flex items-center justify-center text-white-off/70 group-hover:border-gold group-hover:text-gold transition-colors">
+                    <FaWhatsapp className="w-6 h-6" />
                   </span>
-                  WhatsApp (96293 68936)
+                  WhatsApp
                 </a>
               </li>
             </ul>

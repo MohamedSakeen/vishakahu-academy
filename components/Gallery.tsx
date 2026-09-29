@@ -3,13 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import { CldImage } from 'next-cloudinary';
 
 interface GalleryItem {
   id: string;
-  src: string;
-  thumbnailSrc?: string;
-  title: string;
-  filename: string;
+  public_id: string;
+  secure_url: string;
+  category: string;
+  created_at: string;
 }
 
 export default function Gallery() {
@@ -76,11 +77,13 @@ export default function Gallery() {
               >
                 <Link href="/gallery" aria-label={`View ${item.title || "Academy Photograph"} in Gallery`}>
                   <div className="w-full relative overflow-hidden">
-                    <img 
-                      src={item.thumbnailSrc || item.src}
-                      alt={item.title ? `Vishakahu Academy - ${item.title}` : "Vishakahu Academy martial arts tournament and training moment"}
-                      loading="lazy"
-                      decoding="async"
+                    <CldImage 
+                      width="400"
+                      height="400"
+                      crop="limit"
+                      src={item.public_id}
+                      alt={item.category ? `Vishakahu Academy - ${item.category}` : "Vishakahu Academy martial arts tournament and training moment"}
+                      sizes="(max-width: 768px) 50vw, 25vw"
                       className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
                     />
                   </div>

@@ -1,16 +1,17 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import { CldImage } from 'next-cloudinary';
 
 interface GalleryItem {
   id: string;
-  src: string;          // Full original high-res image URL
-  thumbnailSrc?: string; // Lightweight WebP template thumbnail URL (~40KB)
-  title: string;
-  filename: string;
+  public_id: string;
+  secure_url: string;
+  category: string;
+  created_at: string;
 }
 
 let galleryCache: GalleryItem[] | null = null;
@@ -19,6 +20,7 @@ export default function GalleryPage() {
   const [items, setItems] = useState<GalleryItem[]>(galleryCache || []);
   const [loading, setLoading] = useState(!galleryCache);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>('all');
 
   useEffect(() => {
     if (galleryCache && galleryCache.length > 0) {
@@ -50,20 +52,25 @@ export default function GalleryPage() {
     };
   }, []);
 
-  const handlePreloadOriginal = (src: string) => {
+  const filteredItems = useMemo(() => {
+    if (activeCategory === 'all') return items;
+    return items.filter(item => item.category === activeCategory);
+  }, [items, activeCategory]);
+
+  const handlePreloadOriginal = (url: string) => {
     if (typeof window !== 'undefined') {
       const img = new window.Image();
-      img.src = src;
+      img.src = url;
     }
   };
 
   const handleNextImage = useCallback(() => {
-    setSelectedImageIndex((prev) => (prev !== null && items.length > 0 ? (prev + 1) % items.length : null));
-  }, [items.length]);
+    setSelectedImageIndex((prev) => (prev !== null && filteredItems.length > 0 ? (prev + 1) % filteredItems.length : null));
+  }, [filteredItems.length]);
 
   const handlePrevImage = useCallback(() => {
-    setSelectedImageIndex((prev) => (prev !== null && items.length > 0 ? (prev - 1 + items.length) % items.length : null));
-  }, [items.length]);
+    setSelectedImageIndex((prev) => (prev !== null && filteredItems.length > 0 ? (prev - 1 + filteredItems.length) % filteredItems.length : null));
+  }, [filteredItems.length]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -101,6 +108,25 @@ export default function GalleryPage() {
         </div>
       </header>
 
+      {/* Category Filters */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-8 mb-2">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
+          {['all', 'dojo', 'tournament', 'awards', 'master', 'certificate'].map((cat) => (
+            <button
+              key={cat}
+              onClick={() => { setActiveCategory(cat); setSelectedImageIndex(null); }}
+              className={`px-4 py-2 text-xs font-serif uppercase tracking-widest rounded-full transition-colors ${
+                activeCategory === cat
+                  ? 'bg-gold text-ink font-bold'
+                  : 'bg-white-off/5 text-white/70 hover:bg-white-off/10 border border-white/10'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Gallery Grid */}
       <main className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-12">
         {loading ? (
@@ -108,13 +134,13 @@ export default function GalleryPage() {
             <div className="w-10 h-10 border-2 border-gold/20 border-t-gold rounded-full animate-spin mb-4" />
             <p className="text-white/40 font-serif tracking-widest text-sm uppercase">Loading Gallery Photos...</p>
           </div>
-        ) : items.length > 0 ? (
+        ) : filteredItems.length > 0 ? (
           <motion.div 
             layout
             className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 gap-2.5 sm:gap-4 space-y-2.5 sm:space-y-4"
           >
             <AnimatePresence mode="popLayout">
-              {items.map((item, idx) => (
+              {filteredItems.map((item, idx) => (
                 <motion.div
                   key={item.id}
                   layout
@@ -123,26 +149,28 @@ export default function GalleryPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                   onClick={() => {
-                    handlePreloadOriginal(item.src);
+                    handlePreloadOriginal(item.secure_url);
                     setSelectedImageIndex(idx);
                   }}
-                  onMouseEnter={() => handlePreloadOriginal(item.src)}
+                  onMouseEnter={() => handlePreloadOriginal(item.secure_url)}
                   className="group relative overflow-hidden bg-white-off/5 break-inside-avoid w-full mb-2.5 sm:mb-4 cursor-pointer border border-white/5 hover:border-gold/40 transition-colors duration-300 rounded-sm"
                   role="button"
                   tabIndex={0}
-                  aria-label={`View photo ${item.title || idx + 1} full size`}
+                  aria-label={`View photo ${item.public_id || idx + 1} full size`}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
-                      handlePreloadOriginal(item.src);
+                      handlePreloadOriginal(item.secure_url);
                       setSelectedImageIndex(idx);
                     }
                   }}
                 >
-                  <img
-                    src={item.thumbnailSrc || item.src}
-                    alt={item.title ? `Vishakahu Academy - ${item.title}` : "Vishakahu Academy tournament and training gallery photograph"}
-                    loading="lazy"
-                    decoding="async"
+                  <CldImage
+                    width="600"
+                    height="600"
+                    crop="limit"
+                    src={item.public_id}
+                    alt={item.category ? `Vishakahu Academy - ${item.category}` : "Vishakahu Academy gallery photograph"}
+                    sizes="(max-width: 768px) 50vw, 33vw"
                     className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                   
@@ -165,7 +193,7 @@ export default function GalleryPage() {
 
       {/* Fullscreen Lightbox Modal */}
       <AnimatePresence>
-        {selectedImageIndex !== null && items[selectedImageIndex] && (
+        {selectedImageIndex !== null && filteredItems[selectedImageIndex] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -179,7 +207,10 @@ export default function GalleryPage() {
             <div className="flex justify-between items-center z-10">
               <div>
                 <span className="text-gold text-xs font-serif tracking-[0.2em] uppercase block">
-                  Photo ({selectedImageIndex + 1} / {items.length})
+                  Photo ({selectedImageIndex + 1} / {filteredItems.length})
+                </span>
+                <span className="text-white/50 text-[10px] font-mono uppercase tracking-widest mt-1">
+                  Category: {filteredItems[selectedImageIndex].category}
                 </span>
               </div>
               <button
@@ -193,7 +224,7 @@ export default function GalleryPage() {
 
             {/* Main Image Display */}
             <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
-              {items.length > 1 && (
+              {filteredItems.length > 1 && (
                 <button
                   onClick={handlePrevImage}
                   className="absolute left-2 md:left-6 z-20 p-3 text-white/70 hover:text-gold bg-ink/60 hover:bg-ink border border-white/10 rounded-full transition-all"
@@ -203,16 +234,24 @@ export default function GalleryPage() {
                 </button>
               )}
 
-              <motion.img
-                key={items[selectedImageIndex].id}
+              <motion.div
+                key={filteredItems[selectedImageIndex].id}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
-                src={items[selectedImageIndex].src}
-                alt={items[selectedImageIndex].title ? `Vishakahu Academy - ${items[selectedImageIndex].title}` : "Vishakahu Academy tournament and training full photograph"}
-                className="max-h-[80vh] max-w-[90vw] w-auto h-auto object-contain shadow-2xl rounded-sm"
-              />
+                className="max-h-[80vh] max-w-[90vw] flex items-center justify-center shadow-2xl rounded-sm"
+              >
+                <CldImage
+                  width="1920"
+                  height="1080"
+                  crop="limit"
+                  src={filteredItems[selectedImageIndex].public_id}
+                  alt="Gallery Full Image"
+                  sizes="90vw"
+                  className="w-auto h-auto max-h-[80vh] max-w-[90vw] object-contain"
+                />
+              </motion.div>
 
               {items.length > 1 && (
                 <button

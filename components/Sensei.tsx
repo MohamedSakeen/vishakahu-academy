@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import Vishnu from '../public/masters/Vishnu_sensei.jpeg';
+import CertificatesMarquee from './CertificatesMarquee';
 
 export default function Sensei() {
   return (
-    <section id="sensei" className="py-16 md:py-32 relative bg-ink">
+    <section id="sensei" className="pt-16 md:pt-32 pb-0 relative bg-ink">
       <div className="absolute top-10 right-10 text-[200px] font-jp opacity-[0.02] kanji-watermark pointer-events-none">
         師
       </div>
@@ -154,6 +155,11 @@ export default function Sensei() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Certificates Loop */}
+      <div className="mt-8 md:mt-12">
+        <CertificatesMarquee />
       </div>
     </section>
   );
