@@ -12,6 +12,7 @@ interface GalleryItem {
   secure_url: string;
   category: string;
   created_at: string;
+  is_pinned?: boolean;
 }
 
 let galleryCache: GalleryItem[] | null = null;
@@ -52,9 +53,46 @@ export default function GalleryPage() {
     };
   }, []);
 
+  const availableCategories = useMemo(() => {
+    const cats = new Set(items.map(item => item.category || 'unlabeled'));
+    return ['all', ...Array.from(cats)];
+  }, [items]);
+
   const filteredItems = useMemo(() => {
-    if (activeCategory === 'all') return items;
-    return items.filter(item => item.category === activeCategory);
+    const pinnedItems = items.filter(item => item.is_pinned);
+    const unpinnedItems = items.filter(item => !item.is_pinned);
+
+    if (activeCategory !== 'all') {
+      const activePinned = pinnedItems.filter(item => (item.category || 'unlabeled') === activeCategory);
+      const activeUnpinned = unpinnedItems.filter(item => (item.category || 'unlabeled') === activeCategory);
+      return [...activePinned, ...activeUnpinned];
+    }
+
+    // Interleave unpinned images evenly across categories
+    const categoriesMap: Record<string, GalleryItem[]> = {};
+    unpinnedItems.forEach(item => {
+      const cat = item.category || 'unlabeled';
+      if (!categoriesMap[cat]) categoriesMap[cat] = [];
+      categoriesMap[cat].push(item);
+    });
+
+    const interleaved: GalleryItem[] = [];
+    const catKeys = Object.keys(categoriesMap);
+    let hasMore = true;
+    let index = 0;
+
+    while (hasMore) {
+      hasMore = false;
+      for (const cat of catKeys) {
+        if (index < categoriesMap[cat].length) {
+          interleaved.push(categoriesMap[cat][index]);
+          hasMore = true;
+        }
+      }
+      index++;
+    }
+
+    return [...pinnedItems, ...interleaved];
   }, [items, activeCategory]);
 
   const handlePreloadOriginal = (url: string) => {
@@ -110,20 +148,25 @@ export default function GalleryPage() {
 
       {/* Category Filters */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-8 mb-2">
-        <div className="flex flex-wrap gap-2 sm:gap-3">
-          {['all', 'dojo', 'tournament', 'awards', 'master', 'certificate'].map((cat) => (
-            <button
-              key={cat}
-              onClick={() => { setActiveCategory(cat); setSelectedImageIndex(null); }}
-              className={`px-4 py-2 text-xs font-serif uppercase tracking-widest rounded-full transition-colors ${
-                activeCategory === cat
-                  ? 'bg-gold text-ink font-bold'
-                  : 'bg-white-off/5 text-white/70 hover:bg-white-off/10 border border-white/10'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        <div className="inline-block relative">
+          <label htmlFor="category-select" className="sr-only">Select Category</label>
+          <select
+            id="category-select"
+            value={activeCategory}
+            onChange={(e) => { setActiveCategory(e.target.value); setSelectedImageIndex(null); }}
+            className="appearance-none bg-white-off/5 text-white border border-white/20 hover:border-gold/50 rounded-md pl-4 pr-10 py-2.5 text-xs font-serif uppercase tracking-widest focus:outline-none focus:border-gold cursor-pointer transition-colors"
+          >
+            {availableCategories.map(cat => (
+              <option key={cat} value={cat} className="bg-ink text-white">
+                {cat === 'all' ? 'All Galleries' : cat}
+              </option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gold/70">
+            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </div>
         </div>
       </div>
 
