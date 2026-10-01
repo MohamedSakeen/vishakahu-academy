@@ -25,25 +25,28 @@ const canonicalOrigin = defaultUrl.replace(/\/+$/, '');
 export const metadata: Metadata = {
   metadataBase: new URL(canonicalOrigin),
   title: {
-    default: 'Vishakahu Academy | Martial Arts & Karate Academy in Tirunelveli',
+    default: 'Best Karate Classes in Tirunelveli | Vishakahu Martial Arts Academy',
     template: '%s | Vishakahu Academy',
   },
-  description: 'Vishakahu Academy offers authentic Isshinryu Karate-do, Judo, and Taekwondo training in Tirunelveli and Chennai. Developing discipline, physical fitness, and international champions for over 30 years.',
+  description: 'Join the best karate classes in Tirunelveli at Vishakahu Academy. Professional coaching in Isshinryu Karate, Judo & Taekwondo for kids and adults. Focus on discipline, self-defense, and physical fitness.',
   keywords: [
+    'best karate classes in Tirunelveli',
     'Vishakahu Academy',
-    'karate classes in Tirunelveli',
-    'karate academy in Tirunelveli',
+    'karate classes for kids in Tirunelveli',
     'Isshinryu Karate in Tirunelveli',
     'martial arts academy in Tirunelveli',
     'Judo classes in Tirunelveli',
     'Taekwondo classes in Tirunelveli',
-    'karate classes in Chennai',
-    'international-level karate training',
-    'martial arts school in Tirunelveli',
+    'professional karate coaching',
+    'self-defense classes Tirunelveli',
+    'karate classes in Palayamkottai',
+    'Maharaja Nagar martial arts',
+    'Perumalpuram karate classes',
     'Kyoshi Vishnu',
     'self defense classes',
     'kids karate classes',
     'black belt development',
+    'martial arts for children',
   ],
   authors: [{ name: 'Vishakahu Academy' }],
   creator: 'Vishakahu Academy',
@@ -67,8 +70,8 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: `${canonicalOrigin}/`,
     siteName: 'Vishakahu Academy',
-    title: 'Vishakahu Academy | Martial Arts & Karate Academy in Tirunelveli',
-    description: 'Authentic Isshinryu Karate, Judo, and Taekwondo training for students, athletes, and defense aspirants in Tirunelveli and Chennai. 30+ years of martial arts excellence.',
+    title: 'Best Karate Classes in Tirunelveli | Vishakahu Academy',
+    description: 'Join the best karate classes in Tirunelveli. Professional Isshinryu Karate, Judo, and Taekwondo training focusing on discipline, self-defense, and fitness.',
     images: [
       {
         url: '/masters/Vishnu_sensei.jpeg',
@@ -80,8 +83,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vishakahu Academy | Martial Arts & Karate Academy in Tirunelveli',
-    description: 'Authentic Isshinryu Karate, Judo, and Taekwondo training for students, athletes, and defense aspirants in Tirunelveli and Chennai.',
+    title: 'Best Karate Classes in Tirunelveli | Vishakahu Academy',
+    description: 'Professional Isshinryu Karate, Judo, and Taekwondo training focusing on discipline, self-defense, and fitness in Tirunelveli.',
     images: ['/masters/Vishnu_sensei.jpeg'],
   },
 };
@@ -93,10 +96,10 @@ const jsonLd = {
       '@type': ['SportsClub', 'EducationalOrganization'],
       '@id': `${canonicalOrigin}/#academy`,
       'name': 'Vishakahu Academy',
-      'alternateName': ['Vishakahu Isshinryu Karate Dojo', 'VishakaHu Academy'],
+      'alternateName': ['Vishakahu Isshinryu Karate Dojo', 'VishakaHu Academy', 'Best Karate Classes in Tirunelveli'],
       'url': `${canonicalOrigin}/`,
       'image': `${canonicalOrigin}/masters/Vishnu_sensei.jpeg`,
-      'description': 'Premier martial arts academy specializing in authentic Isshinryu Karate-do, Judo, and Taekwondo training for children, youth, and adults in Tirunelveli and Chennai.',
+      'description': 'Premier martial arts academy specializing in authentic Isshinryu Karate-do, Judo, and Taekwondo training. Known for the best karate classes in Tirunelveli focusing on discipline, physical fitness, and self-defense for children and adults.',
       'telephone': '+919629368936',
       'email': 'vishnu.judovav@gmail.com',
       'address': {
@@ -109,6 +112,14 @@ const jsonLd = {
         {
           '@type': 'City',
           'name': 'Tirunelveli'
+        },
+        {
+          '@type': 'City',
+          'name': 'Palayamkottai'
+        },
+        {
+          '@type': 'City',
+          'name': 'Maharaja Nagar'
         },
         {
           '@type': 'City',

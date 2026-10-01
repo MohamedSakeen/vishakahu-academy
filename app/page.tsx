@@ -18,8 +18,8 @@ const defaultUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://vishakahu.com';
 const canonicalOrigin = defaultUrl.replace(/\/+$/, '');
 
 export const metadata: Metadata = {
-  title: 'Vishakahu Academy | Martial Arts & Karate Academy in Tirunelveli',
-  description: 'Authentic Isshinryu Karate-do, Judo, and Taekwondo academy in Tirunelveli and Chennai branch. Rigorous training in traditional martial arts, self-defense, and international competition for students, athletes, and aspirants.',
+  title: 'Best Karate Classes in Tirunelveli | Vishakahu Academy',
+  description: 'Join the best karate classes in Tirunelveli at Vishakahu Academy. Authentic Isshinryu Karate, Judo, and Taekwondo for kids and adults. Professional coaching in Palayamkottai & Maharaja Nagar.',
   alternates: {
     canonical: '/',
   },
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: `${canonicalOrigin}/`,
     siteName: 'Vishakahu Academy',
-    title: 'Vishakahu Academy | Martial Arts & Karate Academy in Tirunelveli',
-    description: 'Authentic Isshinryu Karate, Judo, and Taekwondo training for students, athletes, and defense aspirants in Tirunelveli and Chennai.',
+    title: 'Best Karate Classes in Tirunelveli | Vishakahu Academy',
+    description: 'Join the best karate classes in Tirunelveli. Authentic Isshinryu Karate, Judo, and Taekwondo for kids and adults. Professional coaching.',
     images: [
       {
         url: '/masters/Vishnu_sensei.jpeg',
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vishakahu Academy | Martial Arts & Karate Academy in Tirunelveli',
-    description: 'Authentic Isshinryu Karate, Judo, and Taekwondo training for students, athletes, and defense aspirants in Tirunelveli and Chennai.',
+    title: 'Best Karate Classes in Tirunelveli | Vishakahu Academy',
+    description: 'Join the best karate classes in Tirunelveli. Authentic Isshinryu Karate, Judo, and Taekwondo for kids and adults.',
     images: ['/masters/Vishnu_sensei.jpeg'],
   },
 };
