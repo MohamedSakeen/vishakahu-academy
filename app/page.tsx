@@ -12,6 +12,7 @@ import Masters from '@/components/Masters';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import Loader from '@/components/Loader';
+import FloatingContactButton from '@/components/FloatingContactButton';
 
 const defaultUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://vishakahu.com';
 const canonicalOrigin = defaultUrl.replace(/\/+$/, '');
@@ -65,6 +66,8 @@ export default function Home() {
       <Contact />
       
       <Footer />
+      
+      <FloatingContactButton />
     </main>
   );
 }

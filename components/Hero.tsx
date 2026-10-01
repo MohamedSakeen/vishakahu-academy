@@ -65,7 +65,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-lg md:text-xl font-serif text-white-off/50 max-w-2xl font-light uppercase tracking-[0.2em] mb-12"
         >
-          The Path of Discipline
+        Learn ... Inspire ... Create ...
         </motion.p>
 
         <motion.div 

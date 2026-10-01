@@ -86,29 +86,29 @@ function TiltCard({ program, index }: { program: typeof PROGRAMS[0], index: numb
       style={{
         perspective: 1000,
       }}
-      className="relative w-full h-64 sm:h-72 cursor-pointer interactive"
+      className="relative w-full h-48 sm:h-64 lg:h-72 cursor-pointer interactive"
     >
       <motion.div
         animate={{ rotateX, rotateY }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         style={{ transformStyle: 'preserve-3d' }}
-        className={`w-full h-full rounded-sm border border-white-off/10 p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-xl ${program.bg}`}
+        className={`w-full h-full rounded-sm border border-white-off/10 p-3 sm:p-6 lg:p-8 flex flex-col justify-between overflow-hidden shadow-xl ${program.bg}`}
       >
         <div 
-          className="absolute -right-4 -bottom-8 text-[120px] font-jp text-white-off/[0.03] select-none pointer-events-none"
+          className="absolute -right-2 -bottom-4 sm:-right-4 sm:-bottom-8 text-[70px] sm:text-[120px] font-jp text-white-off/[0.03] select-none pointer-events-none"
           style={{ transform: 'translateZ(-50px)' }}
         >
           {program.kanji}
         </div>
         
         <div style={{ transform: 'translateZ(30px)' }}>
-          <span className="text-gold font-serif text-xs tracking-[0.2em] uppercase block mb-2">
+          <span className="text-gold font-serif text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.2em] uppercase block mb-1.5 sm:mb-2 line-clamp-1">
             {program.age}
           </span>
-          <h3 className="text-2xl font-serif text-paper tracking-wider mb-4 border-b border-white-off/10 pb-4">
+          <h3 className="text-sm sm:text-2xl font-serif text-paper tracking-wider mb-2 sm:mb-4 border-b border-white-off/10 pb-2 sm:pb-4 leading-tight">
             {program.title}
           </h3>
-          <p className="text-white-off/60 text-[0.75rem] font-sans leading-relaxed">
+          <p className="text-white-off/60 text-[10px] sm:text-[0.75rem] font-sans leading-snug sm:leading-relaxed">
             {program.desc}
           </p>
         </div>
@@ -144,7 +144,7 @@ export default function Classes() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 md:gap-8">
           {PROGRAMS.map((program, index) => (
             <TiltCard key={program.title} program={program} index={index} />
           ))}
