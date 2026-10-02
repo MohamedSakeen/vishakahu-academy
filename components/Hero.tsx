@@ -15,7 +15,7 @@ const KANJI_DROPS = Array.from({ length: 40 }).map((_, i) => ({
 
 export default function Hero() {
   return (
-    <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden pt-20">
+    <section id="home" className="relative min-h-[100dvh] h-[100dvh] w-full flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
 
       {/* Kanji Rain */}
       <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none opacity-20" aria-hidden="true">
@@ -38,22 +38,22 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-30 max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
+      <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center w-full">
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          className="mb-8"
+          className="mb-6 sm:mb-8 relative"
         >
-          <div className="text-crimson/80 font-jp text-[120px] leading-none select-none tracking-widest absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[-1] opacity-20 blur-sm">
+          <div className="text-crimson/80 font-jp text-[80px] sm:text-[120px] leading-none select-none tracking-widest absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[-1] opacity-20 blur-sm pointer-events-none">
             一心流
           </div>
-          <span className="text-gold font-serif text-sm tracking-[0.5em] uppercase mb-4 block">
+          <span className="text-gold font-serif text-xs sm:text-sm tracking-[0.35em] sm:tracking-[0.5em] uppercase mb-3 sm:mb-4 block">
             ヴィシャカフ道場
           </span>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white-off uppercase tracking-widest text-shadow-xl mt-4">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-white-off uppercase tracking-widest text-shadow-xl mt-2 sm:mt-4">
             Vishakahu
-            <span className="block text-3xl md:text-5xl lg:text-6xl text-paper/80 mt-4 tracking-[0.3em]">
+            <span className="block text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-paper/80 mt-2 sm:mt-4 tracking-[0.25em] sm:tracking-[0.3em]">
               Academy
             </span>
           </h1>
@@ -63,25 +63,28 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl font-serif text-white-off/50 max-w-2xl font-light uppercase tracking-[0.2em] mb-12"
+          className="text-xs sm:text-sm md:text-base font-serif text-white-off/60 max-w-2xl font-light uppercase tracking-[0.2em] sm:tracking-[0.25em] mb-8 sm:mb-12 whitespace-nowrap"
         >
-        Learn ... Inspire ... Create ...
+          Learn · Inspire · Create
         </motion.p>
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-6"
+          className="flex flex-col sm:flex-row gap-3.5 sm:gap-6 w-full sm:w-auto max-w-xs sm:max-w-none items-center"
         >
           <a 
             href="#enroll" 
             onClick={() => trackEnrollClick('hero_cta')}
-            className="px-10 py-4 bg-crimson text-white font-serif tracking-[0.2em] text-xs font-bold uppercase transition-all interactive clip-elegant hover:bg-deep-red"
+            className="w-full sm:w-auto min-h-[48px] px-8 py-3.5 sm:px-10 sm:py-4 bg-crimson text-white font-serif tracking-[0.2em] text-xs font-bold uppercase transition-all duration-300 interactive clip-elegant hover:bg-deep-red active:scale-[0.98] inline-flex items-center justify-center text-center shadow-lg shadow-crimson/20"
           >
             Begin Your Journey
           </a>
-          <a href="#classes" className="px-10 py-4 bg-transparent text-gold font-serif tracking-[0.2em] text-xs font-bold uppercase border border-gold/50 transition-all interactive clip-elegant hover:bg-gold/10">
+          <a 
+            href="#classes" 
+            className="w-full sm:w-auto min-h-[48px] px-8 py-3.5 sm:px-10 sm:py-4 bg-transparent text-gold font-serif tracking-[0.2em] text-xs font-bold uppercase border border-gold/50 transition-all duration-300 interactive clip-elegant hover:bg-gold/10 active:scale-[0.98] inline-flex items-center justify-center text-center"
+          >
             Explore Classes
           </a>
         </motion.div>
