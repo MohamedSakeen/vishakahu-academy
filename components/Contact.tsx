@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
 import { trackEnrollClick, trackPhoneClick, trackContactClick } from '@/lib/analytics';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
-  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
+  const [honeypot, setHoneypot] = useState('');
+  const [formMountTime, setFormMountTime] = useState<number>(() => Date.now());
+  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string; general?: string }>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -18,7 +19,7 @@ export default function Contact() {
     e.preventDefault();
 
     // Perform thorough validation & sanitization
-    const newErrors: { name?: string; email?: string; phone?: string } = {};
+    const newErrors: { name?: string; email?: string; phone?: string; general?: string } = {};
 
     const cleanName = sanitizeName(formData.name).trim();
     if (!cleanName || cleanName.length < 2) {
@@ -49,35 +50,38 @@ export default function Contact() {
     try {
       trackEnrollClick('contact_form_submit');
 
-      // Send registration to server-side API route (handles Supabase insert reliably)
+      // Send registration to server-side API route with anti-automation tokens
       const response = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: cleanName, email: cleanEmail, phone: cleanPhone }),
+        body: JSON.stringify({
+          name: cleanName,
+          email: cleanEmail,
+          phone: cleanPhone,
+          website: honeypot, // Anti-bot honeypot
+          formTime: formMountTime, // Velocity check
+        }),
       });
 
-      const resData = await response.json();
+      const resData = await response.json().catch(() => ({}));
 
       if (!response.ok || resData.error) {
-        console.warn("Registration API notice:", resData?.error);
-        // Fallback to client SDK insert
-        const { error: clientErr } = await supabase
-          .from('student_registrations')
-          .insert([{ name: cleanName, email: cleanEmail, phone: cleanPhone }]);
-        if (clientErr) {
-          console.warn("Client fallback notice:", clientErr.message);
+        if (response.status === 429) {
+          setErrors({ general: resData.error || 'Too many attempts. Please wait a few minutes before trying again.' });
+        } else {
+          setErrors({ general: resData.error || 'Unable to submit application. Please try again.' });
         }
+        return;
       }
 
       setSubmitted(true);
       setFormData({ name: '', email: '', phone: '' });
+      setHoneypot('');
+      setFormMountTime(Date.now());
       setTimeout(() => setSubmitted(false), 5000);
     } catch (err) {
       console.error("Registration submit error:", err);
-      // Graceful fallback so user receives feedback
-      setSubmitted(true);
-      setFormData({ name: '', email: '', phone: '' });
-      setTimeout(() => setSubmitted(false), 5000);
+      setErrors({ general: 'Network connection issue. Please check your connection and try again.' });
     } finally {
       setSubmitting(false);
     }
@@ -154,6 +158,28 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                {/* General/Rate-limit Error Banner */}
+                {errors.general && (
+                  <div className="p-3 bg-crimson/15 border border-crimson/40 text-paper text-xs rounded font-sans flex items-center gap-2">
+                    <span className="text-crimson font-bold text-sm">⚠</span>
+                    <span>{errors.general}</span>
+                  </div>
+                )}
+
+                {/* Invisible honeypot trap for automated bots */}
+                <div className="hidden" aria-hidden="true" style={{ display: 'none', position: 'absolute', left: '-9999px' }}>
+                  <label htmlFor="website">Website</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
+
                 <div>
                   <label htmlFor="name" className="block text-xs uppercase tracking-widest text-gold mb-2 font-serif">Full Name</label>
                   <input
