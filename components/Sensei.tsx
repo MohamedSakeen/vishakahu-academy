@@ -100,7 +100,7 @@ export default function Sensei() {
                     },
                     {
                       name: 'Sensei Thasvin Anto',
-                      rank: '2st Dan - IIWKA',
+                      rank: '2nd Dan - IIWKA',
                       branch: 'Suthamalli Dojo',
                       lineClass: 'bg-gold',
                     },
