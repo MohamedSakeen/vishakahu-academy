@@ -6,7 +6,7 @@ export async function GET() {
     const { data, error } = await supabase
       .from('gallery_images')
       .select('*')
-      .order('is_pinned', { ascending: false, nullsLast: true })
+      .order('is_pinned', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false });
 
     if (error) {
