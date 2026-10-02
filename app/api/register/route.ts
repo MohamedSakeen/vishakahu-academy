@@ -7,12 +7,14 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 // Strict name pattern allowing standard letters, spaces, dots, hyphens, and apostrophes
 const NAME_REGEX = /^[a-zA-Z\s.'-]+$/;
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   try {
     // 1. Rate Limiting Check (Anti-Brute Force / Anti-DDoS)
     const clientIp = getClientIp(req);
-    // Allow at most 5 registration attempts per 15 minutes per IP address
-    const rateCheck = rateLimit(`register:${clientIp}`, 5, 15 * 60 * 1000);
+    // Allow at most 10 registration attempts per 15 minutes per IP address
+    const rateCheck = rateLimit(`register:${clientIp}`, 10, 15 * 60 * 1000);
 
     if (!rateCheck.success) {
       console.warn(`[RateLimit] Registration rate limit exceeded for IP: ${clientIp}`);
@@ -46,10 +48,10 @@ export async function POST(req: Request) {
     }
 
     // 4. Anti-Automation: Submission Velocity / Rapid Bot Trap
-    // Humans take at least 1.2s to fill out and submit the form
+    // Automated scripts submit within < 300ms of mount
     if (formTime && typeof formTime === 'number') {
       const elapsedMs = Date.now() - formTime;
-      if (elapsedMs > 0 && elapsedMs < 1200) {
+      if (elapsedMs > 0 && elapsedMs < 300) {
         console.warn(`[Anti-Bot] Sub-human submission speed (${elapsedMs}ms) detected from IP: ${clientIp}`);
         // Sinkhole: return simulated success
         return NextResponse.json({ success: true, message: 'Application submitted successfully.' });
