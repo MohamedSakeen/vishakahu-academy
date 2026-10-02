@@ -7,6 +7,7 @@ import { CldImage } from 'next-cloudinary';
 
 interface GalleryItem {
   id: string;
+  title?: string;
   public_id: string;
   secure_url: string;
   category: string;
